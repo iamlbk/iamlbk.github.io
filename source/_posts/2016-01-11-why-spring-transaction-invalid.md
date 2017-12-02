@@ -67,7 +67,7 @@ private void test(){
 ### `private`方法, `final`方法 和 `static`方法不能添加事务
 上面的东西并不难. 那么我们可以从上面知道些什么呢?
 首先, 由于java继承时, 不能重写`private`, `final`, `static`修饰的方法. 所以, 所有的`private`方法, `final`方法 和 `static`方法
-都无法**直接**添加spring的事务管理功能. 比如下面的代码(完整代码点击[这里][down-code]下载):
+都无法**直接**添加spring的事务管理功能. 比如下面的代码(完整代码点击[这里][/downloads/code/2016/01/spring-transaction.zip]下载):
 ```java
 /**
  * 保存两个user对象. 添加了spring事务注解
@@ -171,10 +171,10 @@ public void saveByCallMethod(User user1, User user2) {
     saveError(user1, user2);
 }
 ```
-由于测试的代码基本上和上面一样, 所以这里我们就不贴测试的代码了. 再说一次, 点击[这里][down-code]下载完整代码).
+由于测试的代码基本上和上面一样, 所以这里我们就不贴测试的代码了. 再说一次, 点击[这里](/downloads/code/2016/01/spring-transaction.zip)下载完整代码).
 实际上, 上面的`saveByCallMethod`方法还是无法获得spring的事务支持. 因为它的调用堆栈如下图所示(从下向上):</br>
 ![saveByCallMethod的调用堆栈](/images/2016/01/spring-transaction-saveByCallMethod-stack.png)<br/>
-最终结果就是spring的事务管理没有生效. 这是或许你会想了, 那为啥不直接给`saveByCallMethod`方法添加事务支持呢? 对啊, 所以我说这种情况的可能性也不大.
+最终结果就是spring的事务管理没有生效. 这是或许你会想了, 那为啥不直接给`saveByCallMethod`方法添加事务支持呢? 所以我说这种情况的可能性也不大.
 下面我们再看看事务管理和多线程缠在一起时的情况:
 ```java
 /**
@@ -207,5 +207,3 @@ public void saveByThread(User user1, User user2) {
 - `final`方法无法添加事务管理.
 - `static`方法无法添加事务管理.
 - 当绕过代理对象, 直接调用添加事务管理的方法时, 事务管理将无法生效.
-
-[down-code]: /downloads/code/2016/01/spring-transaction.zip

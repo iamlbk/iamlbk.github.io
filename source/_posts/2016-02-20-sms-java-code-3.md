@@ -20,9 +20,9 @@ keywords: java, 发送短信, 限制日发送次数, quartz
 - sendTime的默认值为当前时间.
 
 ## 限制日发送次数
-我们这里需要用到[上一篇][two]中提到的接口和实体类.
+我们这里需要用到[上一篇](/blog/20160219/sms-java-code-2/ "发送短信--限制发送频率")中提到的接口和实体类.
 
-``` java DailyCountFilter.java
+```java
 public class DailyCountFilter implements SmsFilter {
 
     private int ipDailyMaxSendCount;
@@ -55,11 +55,11 @@ public class DailyCountFilter implements SmsFilter {
 还有一个问题: 随着时间的推移, 这个表会越来越大, 造成查询的性能相当的差. 我们可以向上一篇中那样, 每隔一段时间就删除无用的数据; 也可以动态的创建表, 然后向新表中插入数据. 
 
 ## 使用动态表
-这里我们采用第二种方案: 数据表的名字为"sms\_四位年\_两位月", 比如"sms\_2016\_02". 插入数据时根据现在的时间获得表名, 然后再插入. 另外使用[Quartz][]在每月的20号2点生成下个月以及下下个月的数据表:
+这里我们采用第二种方案: 数据表的名字为"sms\_四位年\_两位月", 比如"sms\_2016\_02". 插入数据时根据现在的时间获得表名, 然后再插入. 另外使用[Quartz](http://www.quartz-scheduler.org/ "Quartz官网")在每月的20号2点生成下个月以及下下个月的数据表:
 
 我们首先修改`DailyCountFilter`类, 在这个类中添加任务计划, 定时生成数据表:
 
-``` java DailyCountFilter.java
+```java
 // 在上面代码的基础上, 再添加如下代码
 public class DailyCountFilter implements SmsFilter {
 
@@ -114,7 +114,7 @@ public class DailyCountFilter implements SmsFilter {
 
 接下来, 我们看看`SmsDao`的部分代码:
 
-``` java SmsDao.java
+```java
 public class SmsDao {
 
     /**
@@ -180,16 +180,10 @@ public class SmsDao {
 
 我们保留发送短信的数据(手机号, ip, 时间等), 而不是直接删除, 是因为以后可能需要分析这些数据, 获取我们想要的信息, 比如判断服务商短信的到达率、是否有人恶意发送短信等. 甚至可能获得意外的"惊喜". 
 
-最后, 示例代码可以在[这里][download code]下载.
+最后, 示例代码可以在[这里](/downloads/code/2016/02/sms3.zip "下载源码")下载.
 
 发送短信文章:
 
-- [发送短信--同步/异步发送短信][one]: http://www.iamlbk.com/blog/20160219/sms-java-code-1/
-- [发送短信--限制发送频率][two]:  http://www.iamlbk.com/blog/20160219/sms-java-code-2/
-- [发送短信--限制日发送次数][three]: http://www.iamlbk.com/blog/20160219/sms-java-code-3/
-
-[one]: /blog/20160219/sms-java-code-1/ "发送短信--同步/异步发送短信"
-[two]: /blog/20160219/sms-java-code-2/ "发送短信--限制发送频率"
-[three]: /blog/20160219/sms-java-code-3/ "发送短信--限制日发送次数"
-[Quartz]: http://www.quartz-scheduler.org/ "Quartz官网"
-[download code]: /downloads/code/2016/02/sms3.zip "下载源码"
+- [发送短信--同步/异步发送短信](/blog/20160219/sms-java-code-1/ "发送短信--同步/异步发送短信"): http://www.iamlbk.com/blog/20160219/sms-java-code-1/
+- [发送短信--限制发送频率](/blog/20160219/sms-java-code-2/ "发送短信--限制发送频率"):  http://www.iamlbk.com/blog/20160219/sms-java-code-2/
+- [发送短信--限制日发送次数](/blog/20160219/sms-java-code-3/ "发送短信--限制日发送次数"): http://www.iamlbk.com/blog/20160219/sms-java-code-3/

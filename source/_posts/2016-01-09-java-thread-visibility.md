@@ -88,7 +88,7 @@ consume方法, created=false, 是否满足条件?false
 ```
 我们发现不管是`create`方法还是`consume`方法, 都不满足进入`if`语句的条件. 怎么会这样呢? `create`方法明明将`created`赋值为`true`了.
 其实, 单独看`create`方法和`consume`方法是看不出问题的. 这两个方法很正确. 问题其实是出在多线程中变量的可见性上.
-在《[JAVA并发编程实践](http://book.douban.com/subject/2148132/ )》(点击查看豆瓣评价)3.1节中说:
+在《[JAVA并发编程实践](http://book.douban.com/subject/2148132/)》(点击查看豆瓣评价)3.1节中说:
 > 在没有同步的情况下, 编译器, 处理器, 运行时安排操作的执行顺序可能完全出人意料. 在没有进行适当同步的多线程程序中, 尝试推断那些"必然"发生在内存中的动作时, 你总是会判断错误.
 
 换句话说, 即使`create`方法将`created`赋值为`true`, 如果没有适当的同步, 那么`consume`方法中看见的**可能**还是以前的`false`. 
@@ -100,7 +100,7 @@ consume方法, created=false, 是否满足条件?false
 说道同步, 首先想到的应该就是加锁了吧. 但是加锁的开销太大, 
 而且不合适的锁会导致基本上线性执行的多线程程序(就像这个例子中的程序). 那么有没有其他的方法呢? 那就得靠`volatile`了.
 
-《[JAVA并发编程实践][java-concurrency-in-practice]》中是这样说的:
+《[JAVA并发编程实践](http://book.douban.com/subject/2148132/)》中是这样说的:
 > Java语言也提供了其他的选择, 及一种同步的弱形式: volatile变量. 它确保对一个变量的更新会以可预见的方式告知其他的线程.<br/>
 ...<br/>
 所以, 读一个volatile类型的变量时, 总会返回由某一线程所写入的最新值.
@@ -110,10 +110,10 @@ consume方法, created=false, 是否满足条件?false
 private volatile boolean created = false; 
 ```
 
-另外, 需要注意《[JAVA并发编程实践][java-concurrency-in-practice]》里面还说到:
+另外, 需要注意《[JAVA并发编程实践](http://book.douban.com/subject/2148132/)》里面还说到:
 > 当验证正确性必须推断可见性问题时, 应该避免使用volatile变量. 正确使用volatile变量的方式包括: 用于确保他们所引用的对象状态的可见性, 或者用于标示重要的生命事件(比如初始化或者关闭)的方法
 
-也就是说, `volatile`虽好, 但不能到处随意的使用. 可能是因为`volatile`容易用错, 所以这个关键字比较低调, 很多地方都没有提过这个关键字. 简单的说, 因为`volatile`不能提供原子性, 所以使用`volatile`的变量的所有读取/修改必须是原子修改, 比如`x++`就不是, 因为是先读取又写入. 这里我们就不深入说了, 要了解更多信息可以翻翻《[JAVA并发编程实践][java-concurrency-in-practice]》或者看看这篇"文档"《[Java 理论与实践: 正确使用 Volatile 变量][java-volatile]》.
+也就是说, `volatile`虽好, 但不能到处随意的使用. 可能是因为`volatile`容易用错, 所以这个关键字比较低调, 很多地方都没有提过这个关键字. 简单的说, 因为`volatile`不能提供原子性, 所以使用`volatile`的变量的所有读取/修改必须是原子修改, 比如`x++`就不是, 因为是先读取又写入. 这里我们就不深入说了, 要了解更多信息可以翻翻《[JAVA并发编程实践](http://book.douban.com/subject/2148132/)》或者看看这篇"文档"《[Java 理论与实践: 正确使用 Volatile 变量](http://www.ibm.com/developerworks/cn/java/j-jtp06197.html)》.
 
 最后, 我们再说说如何使用同步块解决这个问题. 其实很简单, 只需要将同步块和`if`语句对调即可:
 ```java
@@ -142,5 +142,3 @@ private volatile boolean created = false;
     }
 ```
 
-[java-concurrency-in-practice]:http://book.douban.com/subject/2148132/ JAVA并发编程实践
-[java-volatile]: http://www.ibm.com/developerworks/cn/java/j-jtp06197.html Java 理论与实践: 正确使用 Volatile 变量

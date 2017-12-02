@@ -12,10 +12,10 @@ keywords: pdf转image, pdfbox
 
 目前pdf转图片比较常用的类库有如下几个:
 
-- [PDFRenderer][]: 开源, 是Swinglabs的一个子项目. 效率较高, 但是无法处理中文.
-- [pdfbox][]: apache的一个开源项目, 部分支持中文, 有些中文pdf可以正常转换, 有些则完全无法转换, 比较消耗内存.
-- [jpedal][]: 据说有开源和商业版本, 但是我只找到了商业版本, 而且价格不菲, 所以并没有试过...
-- [ICEPDF][]: 有开源和商业版本. 开源的也是部分支持中文, 商业版的并没有尝试过.
+- [PDFRenderer](https://java.net/projects/pdf-renderer/ "PDFRenderer主页"): 开源, 是Swinglabs的一个子项目. 效率较高, 但是无法处理中文.
+- [pdfbox](http://pdfbox.apache.org/ "pdfbox主页"): apache的一个开源项目, 部分支持中文, 有些中文pdf可以正常转换, 有些则完全无法转换, 比较消耗内存.
+- [jpedal](https://www.idrsolutions.com/jpedal/ "jpedal主页"): 据说有开源和商业版本, 但是我只找到了商业版本, 而且价格不菲, 所以并没有试过...
+- [ICEPDF](http://www.icesoft.org/java/home.jsf "ICEPDF主页"): 有开源和商业版本. 开源的也是部分支持中文, 商业版的没有尝试过.
 
 上面所说的四种工具, 只有pdfbox能支持项目中用到的中文pdf. 所以我使用的是pdfbox. 但是在解决过问题以后, 我使用其他的pdf文件测试时, 有些中文pdf文件转换过之后就只剩下乱码了. 如果需要完美的中文支持, 可能只有使用 jpedal 或者 ICEPDF 的商业版才行吧?
 
@@ -84,10 +84,4 @@ public static void main(String[] args) throws IOException {
 }
 ```
 
-非常简单吧! 今天就说这么多吧. 需要源码的朋友可以从这里[下载][download code]源码.  如果各位朋友还有什么问题, 可以在下方的留言区留言, 我们相互讨论, 共同进步. 
-
-[PDFRenderer]: https://java.net/projects/pdf-renderer/ "PDFRenderer主页"
-[pdfbox]: http://pdfbox.apache.org/ "pdfbox主页"
-[jpedal]: https://www.idrsolutions.com/jpedal/ "jpedal主页"
-[ICEPDF]: http://www.icesoft.org/java/home.jsf "ICEPDF主页"
-[download code]: /downloads/code/2016/04/pdf2image.zip "下载代码"
+非常简单吧! 今天就说这么多吧. 需要源码的朋友可以从这里[下载](/downloads/code/2016/04/pdf2image.zip "下载代码")源码.  如果各位朋友还有什么问题, 可以在下方的留言区留言, 我们相互讨论, 共同进步. 

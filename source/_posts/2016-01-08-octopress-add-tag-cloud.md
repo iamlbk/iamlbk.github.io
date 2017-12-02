@@ -8,11 +8,11 @@ tags: [octopress, github page]
 keywords: octopress, github page, octopress tag cloud, octopress标签, 定制octopress
 ---
 octopress默认只有分类,没有标签.这让习惯使用三四个分类, 无数个标签管理博客的我很不习惯.
-于是在网上找为octopress添加标签的方式. 这篇博客的部分内容参考:《[为octopress添加tag cloud][octopress-add-tag-cloud]》.
+于是在网上找为octopress添加标签的方式. 这篇博客的部分内容参考:《[为octopress添加tag cloud](http://codemacro.com/2012/07/18/add-tag-to-octopress)》.
 <!--more-->
 
 ## 下载
-首先, 下载需要的插件: [octopress-tag-pages][]和[octopress-tag-cloud][]. 使用git clone或者直接下载压缩包都行.
+首先, 下载需要的插件: [octopress-tag-pages](https://github.com/robbyedwards/octopress-tag-pages)和[octopress-tag-cloud](https://github.com/robbyedwards/octopress-tag-cloud). 使用git clone或者直接下载压缩包都行.
 
 ## 安装
 安装其实很简单, 只需要将下面几个文件复制到octopress中相应的目录中即可:
@@ -106,7 +106,7 @@ tag_title_prefix: "标签--"
 ### 配置边栏中标签的数量
 [octopress-tag-cloud][]的文档上说可以使用limit限制显示标签的数量(刚开始遇到的错误也是因为配置的limit太大了造成的). 直接修改source/\_includes/custom/asides/tags.html中的limit后面的数字即可:
 ```plain
-&#123;% tag_cloud font-size: 60-165%, limit: 15 %}
+{% tag_cloud font-size: 60-165%, limit: 15 %}
 ```
 ### 在文章列表中显示标签
 效果如图:
@@ -139,7 +139,3 @@ tag_title_prefix: "标签--"
 </p>
 ```
 
-
-[octopress-add-tag-cloud]: http://codemacro.com/2012/07/18/add-tag-to-octopress 为octopress添加tag cloud
-[octopress-tag-pages]: https://github.com/robbyedwards/octopress-tag-pages octopress-tag-pages
-[octopress-tag-cloud]: https://github.com/robbyedwards/octopress-tag-cloud octopress-tag-cloud

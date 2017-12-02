@@ -112,8 +112,7 @@ CN=localhost, OU=Develop, O=YH, L=Beijing, ST=Beijing, C=CN是否正确?
 原因: 生成密钥文件提示"您的名字与姓氏是什么?"时输入的不是域名. 需要重新生成密钥文件, 并重复执行导出, 安装的过程.
 
 ### chrome提示"您与xxx之间的连接采用了过时的加密技术。"
-虽然SHA-1算法目前尚未发现严重的弱点，但伪造证书所需费用正越来越低。因此浏览器都已经不在建议使用SHA-1算法对证书进行签名了. 解决办法就是使用更为安全的SHA-2. 在生成密钥文件时添加`-sigalg SHA256withRSA`选项即可. 参见[keytool文档][keytool-doc]
+虽然SHA-1算法目前尚未发现严重的弱点，但伪造证书所需费用正越来越低。因此浏览器都已经不在建议使用SHA-1算法对证书进行签名了. 解决办法就是使用更为安全的SHA-2. 在生成密钥文件时添加`-sigalg SHA256withRSA`选项即可. 参见[keytool文档](http://docs.oracle.com/javase/7/docs/technotes/tools/windows/keytool.html "keytool文档")
 
 目前还没有从CA机构申请过证书, 流程还不清楚. 等尝试过一次以后, 再更新本博客.
 
-[keytool-doc]: http://docs.oracle.com/javase/7/docs/technotes/tools/windows/keytool.html "keytool文档"

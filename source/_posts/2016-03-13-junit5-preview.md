@@ -14,16 +14,16 @@ junit是最常用的java单元测试框架之一. 目前junit5已经推出了5.0
 ### junit 5主页
 在介绍junit 5的新特性之前先给出几个链接. 有兴趣的朋友可以去看看:
 
-- junit 5主页: https://github.com/junit-team/junit5
-- junit 5用户指南: http://junit-team.github.io/junit5/
-- junit 5示例: https://github.com/junit-team/junit5-samples
+- junit 5主页: <http://junit.org/junit5/>
+- junit 5用户指南: <http://junit.org/junit5/docs/current/user-guide/>
+- junit 5示例: <https://github.com/junit-team/junit5-samples>
 
 <!--more-->
 ### Java版本
-junit 5只支持java 8及以上. 按照《[junit 5用户指南][guide]》的说法, junit 5也可以测试低版本jdk编译的java类.
+junit 5只支持java 8及以上. 按照《[junit 5用户指南](http://junit.org/junit5/docs/current/user-guide/ "junit 5用户指南")》的说法, junit 5也可以测试低版本jdk编译的java类.
 
 ### Maven坐标
-junit 5已经不再是单个库了, 而是模块化结构的集合. 所有的模块可以参见《[junit 5用户指南][guide]》. 这里我们给出一般情况下需要依赖的junit 5的包的Maven坐标:
+junit 5已经不再是单个库了, 而是模块化结构的集合. 所有的模块可以参见《[junit 5用户指南](http://junit.org/junit5/docs/current/user-guide/ "junit 5用户指南")》. 这里我们给出一般情况下需要依赖的junit 5的包的Maven坐标:
 
 Group ID: org.junit <br/>
 Artifact ID: junit5-api <br/>
@@ -43,7 +43,7 @@ Version: 5.0.0-SNAPSHOT
 - `@Ignore`被`@Disabled`代替
 - `@Category`使用`@Tag`代替
 - `@RunWith`使用`@ExtendWith`代替
-- 更多的信息请参见《[junit 5用户指南][guide]》
+- 更多的信息请参见《[junit 5用户指南](http://junit.org/junit5/docs/current/user-guide/ "junit 5用户指南")》
 
 ## 第一个测试方法
 
@@ -142,6 +142,4 @@ void testWillBeSkipped() {
 - 嵌套测试: junit 5中允许在一个测试类中创建一个内部测试类
 - 方法参数: junit 5中测试方法可以拥有特定类型的参数, junit将进行依赖注入.
 
-junit 5还有一些有趣的新特性, 这里限于篇幅就不再说了, 感兴趣的朋友可以参见《[junit 5用户指南][guide]》.
-
-[guide]: http://junit-team.github.io/junit5/ junit 5用户指南
+junit 5还有一些有趣的新特性, 这里限于篇幅就不再说了, 感兴趣的朋友可以参见《[junit 5用户指南](http://junit.org/junit5/docs/current/user-guide/ "junit 5用户指南")》.

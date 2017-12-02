@@ -20,7 +20,7 @@ keywords: java, 发送短信, 限制发送频率
 ## 定义接口、实体类
 我们需要的实体类如下:
 
-``` java SmsEntity.java
+```java
 public class SmsEntity{
     private Integer id;
     private String mobile;
@@ -35,7 +35,7 @@ public class SmsEntity{
 
 过滤接口如下:
 
-``` java SmsFilter.java
+```java
 public interface SmsFilter {
 
     /**
@@ -61,7 +61,7 @@ public interface SmsFilter {
 ## 主要代码
 限制发送频率, 需要记录某个手机号(IP)及上次发送短信的时间. 很适合`Map`去完成, 这里我们先使用`ConcurrentMap`实现:
 
-``` java FrequencyFilter.java
+```java
 public class FrequencyFilter implements SmsFilter {
     /**
      * 发送间隔, 单位: 毫秒
@@ -118,7 +118,7 @@ public class FrequencyFilter implements SmsFilter {
 
 ## 清理过期数据
 
-``` java FrequencyFilter.java
+```java
 /**
  * 在上面代码的基础上, 再添加如下代码
  */
@@ -164,7 +164,7 @@ public class FrequencyFilter implements SmsFilter {
 
 当然, 添加上面的代码后, 最开始的代码又有bug了: 当最后一行`sendAddressMap.replace(id, sendTime, currentTime)`执行失败时不一定是其他线程进行了替换, 也有可能是清理线程把数据删了. 所以我们需要修改`setSendTime`方法最后几行:
 
-``` java FrequencyFilter.java
+```java
 private boolean setSendTime(String id) {
     // 省略前面的代码
     if(sendAddressMap.replace(id, sendTime, currentTime)) {
@@ -187,7 +187,7 @@ private boolean setSendTime(String id) {
 ## 使用实例
 下面我们提供一个Server层, 展示如何将上一篇以及这一篇中的代码整合到一起:
 
-``` java SmsService.java
+```java
 public class SmsService{
     private Sms sms;
     private List<SmsFilter> filters;
@@ -231,15 +231,11 @@ public class SmsService{
 
 之后将`FrequencyFilter`以及上一篇中的`AsyncSmsImpl`通过set方法"注入"进去即可.
 
-最后, 点击[这里][download code]下载代码.
+最后, 点击[这里](/downloads/code/2016/02/sms2.zip "下载源码")下载代码.
 
 发送短信文章:
 
-- [发送短信--同步/异步发送短信][one]: http://www.iamlbk.com/blog/20160219/sms-java-code-1/
-- [发送短信--限制发送频率][two]:  http://www.iamlbk.com/blog/20160219/sms-java-code-2/
-- [发送短信--限制日发送次数][three]: http://www.iamlbk.com/blog/20160219/sms-java-code-3/
+- [发送短信--同步/异步发送短信](/blog/20160219/sms-java-code-1/ "发送短信--同步/异步发送短信"): http://www.iamlbk.com/blog/20160219/sms-java-code-1/
+- [发送短信--限制发送频率](/blog/20160219/sms-java-code-2/ "发送短信--限制发送频率"):  http://www.iamlbk.com/blog/20160219/sms-java-code-2/
+- [发送短信--限制日发送次数](/blog/20160219/sms-java-code-3/ "发送短信--限制日发送次数"): http://www.iamlbk.com/blog/20160219/sms-java-code-3/
 
-[one]: /blog/20160219/sms-java-code-1/ "发送短信--同步/异步发送短信"
-[two]: /blog/20160219/sms-java-code-2/ "发送短信--限制发送频率"
-[three]: /blog/20160219/sms-java-code-3/ "发送短信--限制日发送次数"
-[download code]: /downloads/code/2016/02/sms2.zip "下载源码"

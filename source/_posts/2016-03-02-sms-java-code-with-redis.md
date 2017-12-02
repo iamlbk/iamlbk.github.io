@@ -8,11 +8,11 @@ tags: [发送短信, java, redis]
 keywords: java, 发送短信, 限制发送频率, redis
 ---
 
-在前几篇文章中, 我们介绍了限制发送短信频率, 限制日发送次数等功能. 但是后来[z-oneC][]说用Redis实现会更简单. 于是这几天我大致学了一下Redis, 然后使用Redis重新实现了一次. 当然由于刚接触Redis, 或许有些地方并不合适, 还请您在留言区留言, BK在这里先谢过了.
+在前几篇文章中, 我们介绍了限制发送短信频率, 限制日发送次数等功能. 但是后来[z-oneC](http://my.csdn.net/zzg1229059735 "z-oneC在CSDN上的个人主页")说用Redis实现会更简单. 于是这几天我大致学了一下Redis, 然后使用Redis重新实现了一次. 当然由于刚接触Redis, 或许有些地方并不合适, 还请您在留言区留言, BK在这里先谢过了.
 
-其实使用Redis确实挺简单, 至少没有过于复杂的概念, 庞大的命令集. 基本上入门挺快的. 剩下的就是创造力和经验了. 这里我们使用Redis来完成前两篇:《[发送短信--限制发送频率][sms2]》、《[发送短信--限制日发送次数][sms3]》完成的功能.
+其实使用Redis确实挺简单, 至少没有过于复杂的概念, 庞大的命令集. 基本上入门挺快的. 剩下的就是创造力和经验了. 这里我们使用Redis来完成前两篇:《[发送短信--限制发送频率](http://iamlbk.github.io/blog/20160219/sms-java-code-2/ "发送短信--限制发送频率")》、《[发送短信--限制日发送次数](http://iamlbk.github.io/blog/20160220/sms-java-code-3/ "发送短信--限制日发送次数")》完成的功能.
 
-当然, 如果读者并没有学过Redis, 可以参见《[The Little Redis Book][the-little-redis-book]》快速入门,这本"书"基本上半个上午就可以看完.
+当然, 如果读者并没有学过Redis, 可以参见《[The Little Redis Book](https://github.com/JasonLai256/the-little-redis-book/blob/master/cn/redis.md "The Little Redis Book")》快速入门,这本"书"基本上半个上午就可以看完.
 
 <!--more-->
 ## 思路
@@ -30,7 +30,7 @@ keywords: java, 发送短信, 限制发送频率, redis
 
 ***注: 该脚本摘自《Redis入门指南》***
 
-``` lua ratelimiting.lua
+```lua
 --[[
 实现访问频率的脚本.
 参数:
@@ -60,11 +60,11 @@ return 1
 - 最后判断是否超过了访问频率, 如果超过了访问频率, 则返回0; 否则返回1
 
 ## 使用Jedis调用脚本
-在Redis的[官网][Redis]上有许多Redis的[Java客户端的库][Redis client]. 这里我们使用[Jedis][].
+在Redis的[官网](http://redis.io "Redis官网")上有许多Redis的[Java客户端的库](http://redis.io/clients#java "Reids的Java客户端库"). 这里我们使用[Jedis](https://github.com/xetorthio/jedis "Jedis下载").
 
 我们来看看代码. **该程序中的`ClassPathResource`和`FileCopyUtils`类为Spring中的类, 因此这里的示例程序依赖于Spring**
 
-``` java RateLimit.java
+```java
 public class RateLimit {
 
     private JedisPool jedisPool;
@@ -103,9 +103,9 @@ public class RateLimit {
 `isExceedRate`方法将关键字和参数(过期时间和发送次数)分别封装到`List`里, 之后使用Jedis调用脚本. 获取返回值, 判断频率是否过高. 
 
 ## 使用示例
-下面我们使用上面的代码完成限制发送频率的功能(部分接口和类的声明请参见《[发送短信--限制发送频率][sms2]》). 限制日发送次数的代码基本相同, 这里就不贴了, 请[下载][download code]源码查看.
+下面我们使用上面的代码完成限制发送频率的功能(部分接口和类的声明请参见《[发送短信--限制发送频率][sms2]》). 限制日发送次数的代码基本相同, 这里就不贴了, 请[下载](/downloads/code/2016/03/sms4.zip "下载源码")源码查看.
 
-``` java FrequencyFilter
+```java
 public class FrequencyFilter implements SmsFilter {
     private static final String KEY_PREFIX = "rate.frequency.limiting:";
 
@@ -129,12 +129,3 @@ public class FrequencyFilter implements SmsFilter {
 由于我现在还不会性能测试, 所以只是简单的使用`for`循环测试了一下性能, 虽然可能不是很准确, 但是也有一定的可信度. 在限制发送频率时, 使用`ConcurrentMap`的性能更高, 貌似比例还不小, 只是由于基数并不大, 所以并没有多费多少时间(十万条记录只多花费了十五秒).
 但是在限制日发送次数时, 剩下了n多时间. 综合来看, 还是只使用Redis更省时省事.
 而且, 个人猜测, 在扩展到集群时, 使用Redis应该会简单些. 
-
-[z-oneC]: http://my.csdn.net/zzg1229059735 "z-oneC在CSDN上的个人主页"
-[sms2]: http://iamlbk.github.io/blog/20160219/sms-java-code-2/ "发送短信--限制发送频率"
-[sms3]: http://iamlbk.github.io/blog/20160220/sms-java-code-3/ "发送短信--限制日发送次数"
-[Redis]: http://redis.io "Redis官网"
-[Redis client]: http://redis.io/clients#java "Reids的Java客户端库"
-[Jedis]: https://github.com/xetorthio/jedis "Jedis下载"
-[download code]: /downloads/code/2016/03/sms4.zip "下载源码"
-[the-little-redis-book]: https://github.com/JasonLai256/the-little-redis-book/blob/master/cn/redis.md "The Little Redis Book"

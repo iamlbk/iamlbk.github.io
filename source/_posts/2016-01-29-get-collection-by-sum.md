@@ -36,12 +36,12 @@ private boolean calNextNumber(int start, int sum, int count) {
     return false;
 }
 ```
-这里只给出了关键的代码, 完整代码可以在[这里][download code]下载. 帖子中的数据太长了, 也没有贴出来, 各位可以在源码中看到, 或者到《[求解求哪几个数字之和等于一个固定值][csdn post]》里面查看.
+这里只给出了关键的代码, 完整代码可以在[这里](/downloads/code/2016/01/getArrayBySum.zip "下载源码")下载. 帖子中的数据太长了, 也没有贴出来, 各位可以在源码中看到, 或者到《[求解求哪几个数字之和等于一个固定值](http://bbs.csdn.net/topics/391897373 "求解求哪几个数字之和等于一个固定值")》里面查看.
 
 如果使用我自己随便输入的测试数据, 几乎一瞬间就可以计算出来, 而如果用这个程序去计算那个帖子中给的数据, 在我的电脑上跑了两个小时, 还没有计算出来...
 
 ## 针对帖子中数据的优化
-首先感谢[kinkon007][]的提醒: 
+首先感谢[kinkon007](http://my.csdn.net/kinkon007 "kinkon007的csdn主页")的提醒: 
 > 可以看到sum的尾数是7，那只有几种情况存在，0+7,1+6,2+5,3+4，先固定匹配好两个尾数，然后再选择其他的数来凑和。
 
 根据这个提示, 我们大致可以想到分而治之的思想. 把数据分成两组:  一组(a组)低三位至少有一个不为0, 一组(b组)低三位都是0. 那么, 我们就可先计算a组, 使计算的结果的低三位和目标的第三位一致. 具体来说就是计算结果为: \*\*\*127. 但是个人感觉这样数据量还是很大(没有去数, 纯属感觉). 那么我们就多分几组吧! 一组个位均不为0, 一组个位为0, 十位不为0, 一组个位和十位为0, 百位不为0...
@@ -121,7 +121,7 @@ private boolean calNextArray(int index, int sum, int count) {
     return false;
 }
 ```
-同样, 这里只有主要代码, 完整代码在[这里][download code]下载.
+同样, 这里只有主要代码, 完整代码在[这里](/downloads/code/2016/01/getArrayBySum.zip "下载源码")下载.
 
 ## 这种方法的限制
 这种方法并不是可以使用所有的情况. 
@@ -130,9 +130,5 @@ private boolean calNextArray(int index, int sum, int count) {
 
 其次, 由于这里可以分得组并不是太多, 所以如果数字过多, 即使可以均匀的分组, 但是如果一个组的数字过多, 同样不适用. 这也是需要改进的地方. 
 
-当然, 还有一个缺点: 这里的代码有点饶. 尤其是`ArraySum1`中的`calNextNumber`方法. 或许可以在《[从N个数中取出任意个数，求和为指定值的解][csdn blog]》的基础上进行修改. 由于这篇博客中精巧的设计, 记录上一次的状态非常简单, 可以让程序简单许多. 这里就不提供代码了, 各位可以试试.
+当然, 还有一个缺点: 这里的代码有点饶. 尤其是`ArraySum1`中的`calNextNumber`方法. 或许可以在《[从N个数中取出任意个数，求和为指定值的解](http://blog.csdn.net/min_jie/article/details/3966867 "从N个数中取出任意个数，求和为指定值的解")》的基础上进行修改. 由于这篇博客中精巧的设计, 记录上一次的状态非常简单, 可以让程序简单许多. 这里就不提供代码了, 各位可以试试.
 
-[csdn post]: http://bbs.csdn.net/topics/391897373 求解求哪几个数字之和等于一个固定值
-[download code]: /downloads/code/2016/01/getArrayBySum.zip "下载源码"
-[kinkon007]: http://my.csdn.net/kinkon007 kinkon007的csdn主页
-[csdn blog]: http://blog.csdn.net/min_jie/article/details/3966867 从N个数中取出任意个数，求和为指定值的解

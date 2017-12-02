@@ -46,7 +46,7 @@ wsimport -keep http://106.ihuyi.cn/webservice/sms.php?WSDL
 ## 定义接口
 为了方便, 这里我们首先定义一个接口:
 
-```java Sms.java
+```java
 public interface Sms {
     /**
      * 向mobile发送短信, 内容为message
@@ -64,7 +64,7 @@ public interface Sms {
 ## 同步发送短信
 接下来我们首先实现一个同步发送短信的类:
 
-``` java IhuyiSmsImpl.java
+```java
 public class IhuyiSmsImpl implements Sms {
   
     private String account;
@@ -107,7 +107,7 @@ public class IhuyiSmsImpl implements Sms {
 
 这里, 我使用线程池完成上面的任务:
 
-``` java AsyncSmsImpl.java
+``` java
 public class AsyncSmsImpl implements Sms {
     public Sms sendSms;
     private ExecutorService executorService = Executors.newFixedThreadPool(3);
@@ -139,18 +139,10 @@ public class AsyncSmsImpl implements Sms {
 
 代码很简单, 直接将`Sms`接口的`sendMessage(mobile, message)`方法作为一个任务加到线程池的任务队列中. 这样等到有空闲线程时, 就会执行`sendSms.sendMessage(mobile, message)`发送短信. 这里我们假设只要保存到线程池就可以成功发送短信. 因为发送失败的情况实际上很罕见.
 
-到这里同步/异步发送短信就算是完成了, 代码可以在[这里][download code]下载. 接下来的几篇我们看看一些常见的限制的实现, 比如: 一分钟只能发1次, 一天只能发送5次等.
+到这里同步/异步发送短信就算是完成了, 代码可以在[这里](/downloads/code/2016/02/sms1.zip "下载源码")下载. 接下来的几篇我们看看一些常见的限制的实现, 比如: 一分钟只能发1次, 一天只能发送5次等.
 
 发送短信文章:
 
-- [发送短信--同步/异步发送短信][one]: http://www.iamlbk.com/blog/20160219/sms-java-code-1/
-- [发送短信--限制发送频率][two]:  http://www.iamlbk.com/blog/20160219/sms-java-code-2/
-- [发送短信--限制日发送次数][three]: http://www.iamlbk.com/blog/20160219/sms-java-code-3/
-
-[one]: /blog/20160219/sms-java-code-1/ "发送短信--同步/异步发送短信"
-[two]: /blog/20160219/sms-java-code-2/ "发送短信--限制发送频率"
-[three]: /blog/20160219/sms-java-code-3/ "发送短信--限制日发送次数"
-[ihuyi]: http://www.ihuyi.com/ "互亿无线"
-[yun]: http://www.yuntongxun.com/ "容联云通讯"
-[Api Store]: http://apistore.baidu.com/ "百度apistore"
-[download code]: /downloads/code/2016/02/sms1.zip "下载源码"
+- [发送短信--同步/异步发送短信](/blog/20160219/sms-java-code-1/ "发送短信--同步/异步发送短信"): http://www.iamlbk.com/blog/20160219/sms-java-code-1/
+- [发送短信--限制发送频率](/blog/20160219/sms-java-code-2/ "发送短信--限制发送频率"):  http://www.iamlbk.com/blog/20160219/sms-java-code-2/
+- [发送短信--限制日发送次数](/blog/20160219/sms-java-code-3/ "发送短信--限制日发送次数"): http://www.iamlbk.com/blog/20160219/sms-java-code-3/

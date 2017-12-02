@@ -7,7 +7,7 @@ categories: 编程语言
 tags: [java]
 keywords: java String, java, java char, javap
 ---
-今天我们来考虑一个关于java中String的问题:  &quot;abc&quot; + &#39;/&#39;和 &quot;abc&quot; + &quot;/&quot;的区别. 通过这个例子, 我们可以顺便练习一下JDK工具中javap的用法. 
+今天我们来考虑一个关于java中String的问题:  `"abc" + '/'`和 `"abc" + "/"`的区别. 通过这个例子, 我们可以顺便练习一下JDK工具中javap的用法. 
 这个问题是以前在csdn论坛中看到的. 原问题是这样的:
 > 把斜杠/当作字符或字符串有什么区别呢？<br/>
 一个是当作基本数据类型char，一个是对象String。具体有什么区别呢？<br/>
@@ -22,8 +22,8 @@ keywords: java String, java, java char, javap
 ```java
 String str = "abc/";
 ```
-我们可以通过javap证明这一点. 关于javap, 可以参考《[每个Java开发者都应该知道的5个JDK工具][JDKTool]》. 
-我们首先创建一个类: `StringOne`, 在主方法中填入下面的代码([下载源码][download code]):
+我们可以通过javap证明这一点. 关于javap, 可以参考《[每个Java开发者都应该知道的5个JDK工具](http://www.csdn.net/article/2014-11-20/2822750-5-JDK-Tools-Every-Java-Developer-Should-Know?reload=1)》. 
+我们首先创建一个类: `StringOne`, 在主方法中填入下面的代码([下载源码](/downloads/code/2016/01/StringAddString.zip "下载源码")):
 ```java StringOne.java
 String str1 = "abc" + '/';
 String str2 = "abc" + "/";
@@ -33,7 +33,7 @@ System.out.println(str1 == str2);
 ```sh
 javap -v -l StringOne.class > StringOne.s
 ```
-然后查看生成的StringOne.s文件. 就会发现其中有这么几行(注：javap生成文件中指令的含义可以参考这几篇博客:《[Java栈和局部变量操作（一）][trackOne]》,《[Java栈和局部变量操作（二）][trackTwo]》,《[java指令集][order set]》):
+然后查看生成的StringOne.s文件. 就会发现其中有这么几行(注：javap生成文件中指令的含义可以参考这几篇博客:《[Java栈和局部变量操作（一）](http://www.cnblogs.com/chenqiangjsj/archive/2011/04/02/2003892.html "Java栈和局部变量操作（一）")》,《[Java栈和局部变量操作（二）](http://www.cnblogs.com/chenqiangjsj/archive/2011/04/03/2004231.html "Java栈和局部变量操作（二）")]》,《[java指令集](http://blog.163.com/hfut_quyouhu/blog/static/7847183520127214559314/ "java指令集")》):
 ```plain StringOne.s
 &#35;2 = String             #20            // abc/
 ...
@@ -138,9 +138,3 @@ stringBuilder.append("abc");
 stringBuilder.append("123");
 String str2 = stringBuilder.toString();
 ```
-
-[JDKTool]: http://www.csdn.net/article/2014-11-20/2822750-5-JDK-Tools-Every-Java-Developer-Should-Know?reload=1 "每个Java开发者都应该知道的5个JDK工具"
-[trackOne]: http://www.cnblogs.com/chenqiangjsj/archive/2011/04/02/2003892.html "Java栈和局部变量操作（一）"
-[trackTwo]: http://www.cnblogs.com/chenqiangjsj/archive/2011/04/03/2004231.html "Java栈和局部变量操作（二）"
-[order set]: http://blog.163.com/hfut_quyouhu/blog/static/7847183520127214559314/ "java指令集"
-[download code]: /downloads/code/2016/01/StringAddString.zip "下载源码"

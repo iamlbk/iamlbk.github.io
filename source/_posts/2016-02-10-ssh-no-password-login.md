@@ -16,8 +16,9 @@ keywords: ssh, ssh免密码登录, hadoop安装ssh免密码登录
 ssh-keygen -t rsa -f ~/.ssh/id_rsa -P ''            # 生成公私钥
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys     # 共享授权密钥
 chmod 600 ~/.ssh/authorized_keys                    # 修改文件权限
-``` 
+```
 <!--more-->
+
 ### 命令的解释
 
 第一行, 使用`ssh-keygen`生成公私钥.  `-t rsa`指定生成公私钥的算法为rsa. `-f ~/.ssh/id_rsa`指定生成的公私钥存放的文件路径, 其中id_rsa存放的是私钥, id_rsa.pub存放的是公钥. `-P ''`指定密码为空.
