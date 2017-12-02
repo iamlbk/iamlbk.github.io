@@ -36,7 +36,7 @@ keywords: pdf转image, pdfbox
 ## 将pdf文件转成图片文件
 如果只是需要将pdf文件转成图片文件还是比较简单的, 只需要简单的6,7行代码就行了:
 
-``` java PDF2Image
+``` java
 private static final String BASE_PATH = "F:\\java\\";
 
 public static void main(String[] args) throws IOException {
@@ -63,7 +63,7 @@ public static void main(String[] args) throws IOException {
 
 当然为了看到效果, 下面的示例程序还是将图片保存到文件中.
 
-``` java PDF2BufferedImage
+``` java
 private static final String BASE_PATH = "F:\\java\\";
 
 public static void main(String[] args) throws IOException {

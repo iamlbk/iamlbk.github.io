@@ -15,7 +15,7 @@ keywords: tomcat, https, 证书
 
 生成密钥对的命令如下:
 
-``` bash 生成密钥对
+```bash
 keytool -genkey -alias apple -keyalg RSA -sigalg SHA256withRSA -keysize 1024 -validity 36500 -keystore ./keystore
 ```
 
@@ -31,7 +31,7 @@ keytool -genkey -alias apple -keyalg RSA -sigalg SHA256withRSA -keysize 1024 -va
 
 输入上面的命令, 回车. 会提示如下内容. (注, 下面'#'号后面为解释)
 
-``` bash 交互输入内容
+```bash
 输入密钥库口令: # 输入密钥库密码, 输入密码时不会回显.
 再次输入新口令: # 重复输入上面的密码, 如果密钥库已经存在, 则没有这一步
 您的名字与姓氏是什么?
@@ -61,7 +61,7 @@ CN=localhost, OU=Develop, O=YH, L=Beijing, ST=Beijing, C=CN是否正确?
 首先修改tomcat/conf/server.xml文件.
 将其中port="8443"对应的标签的注释取消掉, 并将密钥文件路径和密码加到配置中. 如下所示:
 
-``` xml server.xml 
+```xml
 <Connector port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol"
    maxThreads="150" SSLEnabled="true" scheme="https" secure="true"
    clientAuth="false" sslProtocol="TLS" 
@@ -78,7 +78,7 @@ CN=localhost, OU=Develop, O=YH, L=Beijing, ST=Beijing, C=CN是否正确?
 ## 自动切换为https协议
 虽然上面我们已经让tomcat支持https方式访问了. 但是有时候我们还希望用户通过http访问时, 自动切换为https协议. 这个功能也很好实现, 只需要将下面一段xml加入到tomcat/conf/web.xml或者项目的WEB-INF/web.xml文件中即可
 
-``` xml 自动切换为https协议
+``` xml
 <security-constraint>
   <web-resource-collection >
     <web-resource-name >SSL</web-resource-name>
