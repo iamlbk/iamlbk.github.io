@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="vxko_SNsLo1Ov0YcfVGTnHlFtBsyn4UgL3HxOYOmoSg" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java, 发送短信, 限制日发送次数, quartz" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="BK的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="在前两篇文章中, 我们实现了同步/异步发送短信以及限制发送短信频率.这一篇, 我们介绍一下限制每日向同一个用户(根据手机号和ip判断)发送短信的次数 数据表结构由于需要记录整天的发送记录, 因此这里我们将数据保存到数据库中. 数据表结构如下:">
+<meta name="keywords" content="java, 发送短信, 限制日发送次数, quartz">
+<meta property="og:type" content="article">
+<meta property="og:title" content="发送短信(三):限制日发送次数">
+<meta property="og:url" content="http://www.iamlbk.com/20160220/2016-02-20-sms-java-code-3/index.html">
+<meta property="og:site_name" content="BK的博客">
+<meta property="og:description" content="在前两篇文章中, 我们实现了同步/异步发送短信以及限制发送短信频率.这一篇, 我们介绍一下限制每日向同一个用户(根据手机号和ip判断)发送短信的次数 数据表结构由于需要记录整天的发送记录, 因此这里我们将数据保存到数据库中. 数据表结构如下:">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.iamlbk.com/images/2016/02/sms-java-code-3-dbtable.png">
+<meta property="og:updated_time" content="2017-10-29T13:31:19.222Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="发送短信(三):限制日发送次数">
+<meta name="twitter:description" content="在前两篇文章中, 我们实现了同步/异步发送短信以及限制发送短信频率.这一篇, 我们介绍一下限制每日向同一个用户(根据手机号和ip判断)发送短信的次数 数据表结构由于需要记录整天的发送记录, 因此这里我们将数据保存到数据库中. 数据表结构如下:">
+<meta name="twitter:image" content="http://www.iamlbk.com/images/2016/02/sms-java-code-3-dbtable.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'B29BFOGDU0',
+      apiKey: '5301a7e85ba88d13b4312a45148ac9c0',
+      indexName: 'blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"搜索博客","hits_empty":"未发现与「${query}」相关的内容","hits_stats":"${hits}条相关条目，使用了${time}毫秒"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.iamlbk.com/20160220/2016-02-20-sms-java-code-3/"/>
+
+
+
+
+
+  <title>发送短信(三):限制日发送次数 | BK的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?cc3a9cc5c3c02e07533ae2a0d33e05d2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">BK的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录成长的轨迹</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iamlbk.com/20160220/2016-02-20-sms-java-code-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LBK">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BK的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">发送短信(三):限制日发送次数</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-20T14:58:41+08:00">
+                2016-02-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程语言/" itemprop="url" rel="index">
+                    <span itemprop="name">编程语言</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/20160220/2016-02-20-sms-java-code-3/" class="leancloud_visitors" data-flag-title="发送短信(三):限制日发送次数">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在前两篇文章中, 我们实现了同步/异步发送短信以及限制发送短信频率.这一篇, 我们介绍一下限制每日向同一个用户(根据手机号和ip判断)发送短信的次数</p>
+<h2 id="数据表结构"><a href="#数据表结构" class="headerlink" title="数据表结构"></a>数据表结构</h2><p>由于需要记录整天的发送记录, 因此这里我们将数据保存到数据库中. 数据表结构如下:<br><img src="/images/2016/02/sms-java-code-3-dbtable.png" class="center"></p>
+<a id="more"></a>
+<ul>
+<li>type为验证码的类型, 比如注册, 重置密码等. </li>
+<li>sendTime的默认值为当前时间.</li>
+</ul>
+<h2 id="限制日发送次数"><a href="#限制日发送次数" class="headerlink" title="限制日发送次数"></a>限制日发送次数</h2><p>我们这里需要用到<a href="/blog/20160219/sms-java-code-2/" title="发送短信--限制发送频率">上一篇</a>中提到的接口和实体类.</p>
+<figure class="highlight java"><figcaption><span>DailyCountFilter.java</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DailyCountFilter</span> <span class="keyword">implements</span> <span class="title">SmsFilter</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> ipDailyMaxSendCount;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mobileDailyMaxSendCount;</div><div class="line">    <span class="keyword">private</span> SmsDao smsDao;</div><div class="line"></div><div class="line">    <span class="comment">// 省略了部分无用代码</span></div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">filter</span><span class="params">(SmsEntity smsEntity)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (smsDao.getMobileCount(smsEntity.getMobile()) &gt;= mobileDailyMaxSendCount) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (smsDao.getIPCount(smsEntity.getIp()) &gt;= ipDailyMaxSendCount) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        smsDao.saveEntity(smsEntity);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>主要代码很简单, 首先判断向指定的手机号发送的次数是否达到了日最大发送次数, 之后再判断指定的ip请求发送的次数是否达到了最大次数. 如果都没有, 则将本次发送的手机号, ip等信息保存到数据库中.</p>
+<p>当然, 这个类存在一定的问题: 在判断是否超过最大次数到保存实体数据之间可能已经有其他线程保存了新的数据. 造成上面的两个判断并不是绝对的准确. </p>
+<p>我们可以使用序列化等级的事务保证不会发生错误, 但是代价太高. 因此我们这里不做处理. 因为我们前面已经实现了限制发送频率. 如果先使用<code>FrequencyFilter</code>过滤一次, 限制发送频率, 那么基本上不可能出现前面说的问题.</p>
+<p>还有一个问题: 随着时间的推移, 这个表会越来越大, 造成查询的性能相当的差. 我们可以向上一篇中那样, 每隔一段时间就删除无用的数据; 也可以动态的创建表, 然后向新表中插入数据. </p>
+<h2 id="使用动态表"><a href="#使用动态表" class="headerlink" title="使用动态表"></a>使用动态表</h2><p>这里我们采用第二种方案: 数据表的名字为”sms_四位年_两位月”, 比如”sms_2016_02”. 插入数据时根据现在的时间获得表名, 然后再插入. 另外使用<a href="http://www.quartz-scheduler.org/" title="Quartz官网" target="_blank" rel="external">Quartz</a>在每月的20号2点生成下个月以及下下个月的数据表:</p>
+<p>我们首先修改<code>DailyCountFilter</code>类, 在这个类中添加任务计划, 定时生成数据表:</p>
+<figure class="highlight java"><figcaption><span>DailyCountFilter.java</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 在上面代码的基础上, 再添加如下代码</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DailyCountFilter</span> <span class="keyword">implements</span> <span class="title">SmsFilter</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Scheduler sched;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> <span class="keyword">throws</span> SchedulerException </span>&#123;</div><div class="line">        smsDao.createTable(<span class="number">0</span>);  <span class="comment">// 创建这个月的数据表</span></div><div class="line">        smsDao.createTable(<span class="number">1</span>);  <span class="comment">// 创建下个月的数据表</span></div><div class="line">        </div><div class="line">        SchedulerFactory sf = <span class="keyword">new</span> StdSchedulerFactory();</div><div class="line">        sched = sf.getScheduler();  <span class="comment">// 创建Quartz容器</span></div><div class="line">        </div><div class="line">        JobDataMap jobDataMap = <span class="keyword">new</span> JobDataMap();</div><div class="line">        jobDataMap.put(<span class="string">"smsDao"</span>, smsDao);   <span class="comment">// 创建运行任务时需要使用的数据map </span></div><div class="line"></div><div class="line">        <span class="comment">// 创建job对象, 该对象执行实际的任务</span></div><div class="line">        JobDetail job = JobBuilder.newJob(CreateSmsTableJob.class)</div><div class="line">                .usingJobData(jobDataMap)</div><div class="line">                .withIdentity(<span class="string">"create sms table job"</span>).build(); </div><div class="line"></div><div class="line">        <span class="comment">// 创建trigger对象, 该对象用来描述触发执行job的时间规则</span></div><div class="line">        <span class="comment">// 比如这里的每月20号2点</span></div><div class="line">        CronTrigger trigger = TriggerBuilder.newTrigger()</div><div class="line">                .withIdentity(<span class="string">"create sms table trigger"</span>)</div><div class="line">                .withSchedule(CronScheduleBuilder.cronSchedule(<span class="string">"0 0 2 20 * ?"</span>))<span class="comment">// 每月的20号2点</span></div><div class="line">                .build(); </div><div class="line"></div><div class="line">        sched.scheduleJob(job, trigger);    <span class="comment">// 注册任务和触发规则</span></div><div class="line">        sched.start();  <span class="comment">// 启动调度</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            sched.shutdown();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">catch</span> (SchedulerException e) &#123;&#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">CreateSmsTableJob</span> <span class="keyword">implements</span> <span class="title">Job</span> </span>&#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext context)</span> <span class="keyword">throws</span> JobExecutionException </span>&#123;</div><div class="line">            JobDataMap dataMap = context.getJobDetail().getJobDataMap();</div><div class="line">            SmsDao smsDao = (SmsDao) dataMap.get(<span class="string">"smsDao"</span>); <span class="comment">// 获得传过来的smsDao对象</span></div><div class="line">            smsDao.createTable(<span class="number">1</span>);  <span class="comment">// 创建下个月的数据表</span></div><div class="line">            smsDao.createTable(<span class="number">2</span>);  <span class="comment">// 创建下下个月的数据表</span></div><div class="line">         &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>接下来, 我们看看<code>SmsDao</code>的部分代码:</p>
+<figure class="highlight java"><figcaption><span>SmsDao.java</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SmsDao</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 创建新的日志表</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> monthExcursion 偏移的月数</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createTable</span><span class="params">(<span class="keyword">int</span> monthExcursion)</span></span>&#123;</div><div class="line">        String sql = <span class="string">"CREATE TABLE IF NOT EXISTS "</span> </div><div class="line">            + getTableName(monthExcursion) + <span class="string">" LIKE sms"</span>;</div><div class="line">        <span class="comment">// 执行sql语句</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 保存SmsEntity实体对象</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saveEntity</span><span class="params">(SmsEntity smsEntity)</span></span>&#123;</div><div class="line">        String sql = <span class="string">"INSERT INTO "</span> </div><div class="line">            + getNowTableName() + <span class="string">" (mobile, ip, type) VALUES(?, ?, ?)"</span>;</div><div class="line">        <span class="comment">// 执行sql语句</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 获得指定手机号今天请求发送短信的次数</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> mobile 用户手机号</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> 今天请求发送短信的次数</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getMobileCount</span><span class="params">(String mobile)</span></span>&#123;</div><div class="line">        String sql = <span class="string">"SELECT count(id) FROM "</span></div><div class="line">            + getNowTableName() + <span class="string">" WHERE mobile=? AND send_time &gt;= CURDATE()"</span>;</div><div class="line">        <span class="comment">// 执行sql语句, 返回查询结果</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 省略了getIPCount方法</span></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 获得现在使用的表的名字</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">getNowTableName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> getTableName(<span class="number">0</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> DateFormat dateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy_MM"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 获得相对现在偏移monthExcursion月的表名</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> monthExcursion 偏移的月数</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> 对应月的表名</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">getTableName</span><span class="params">(<span class="keyword">int</span> monthExcursion)</span> </span>&#123;</div><div class="line">        Calendar calendar = Calendar.getInstance();</div><div class="line">        calendar.add(Calendar.MONTH, monthExcursion);</div><div class="line">        Date date = calendar.getTime();</div><div class="line">        <span class="keyword">return</span> <span class="string">"sms_"</span> + dateFormat.format(date);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>SmsDao</code>中的<code>createTable</code>方法成功运行有个前提, 就是存在<code>sms</code>数据表. <code>createTable</code>方法会复制<code>sms</code>表的结构创建新的数据表.</p>
+<p>我们保留发送短信的数据(手机号, ip, 时间等), 而不是直接删除, 是因为以后可能需要分析这些数据, 获取我们想要的信息, 比如判断服务商短信的到达率、是否有人恶意发送短信等. 甚至可能获得意外的”惊喜”. </p>
+<p>最后, 示例代码可以在<a href="/downloads/code/2016/02/sms3.zip" title="下载源码">这里</a>下载.</p>
+<p>发送短信文章:</p>
+<ul>
+<li><a href="/blog/20160219/sms-java-code-1/" title="发送短信--同步/异步发送短信">发送短信–同步/异步发送短信</a>: <a href="http://www.iamlbk.com/blog/20160219/sms-java-code-1/">http://www.iamlbk.com/blog/20160219/sms-java-code-1/</a></li>
+<li><a href="/blog/20160219/sms-java-code-2/" title="发送短信--限制发送频率">发送短信–限制发送频率</a>:  <a href="http://www.iamlbk.com/blog/20160219/sms-java-code-2/">http://www.iamlbk.com/blog/20160219/sms-java-code-2/</a></li>
+<li><a href="/blog/20160219/sms-java-code-3/" title="发送短信--限制日发送次数">发送短信–限制日发送次数</a>: <a href="http://www.iamlbk.com/blog/20160219/sms-java-code-3/">http://www.iamlbk.com/blog/20160219/sms-java-code-3/</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/reward/wechat.png" alt="LBK 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/reward/alipay.jpg" alt="LBK 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    LBK
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.iamlbk.com/20160220/2016-02-20-sms-java-code-3/" title="发送短信(三):限制日发送次数">http://www.iamlbk.com/20160220/2016-02-20-sms-java-code-3/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/发送短信/" rel="tag"># 发送短信</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/20160219/2016-02-19-sms-java-code-2/" rel="next" title="发送短信(二):限制发送频率">
+                <i class="fa fa-chevron-left"></i> 发送短信(二):限制发送频率
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20160302/2016-03-02-sms-java-code-with-redis/" rel="prev" title="发送短信(四):使用Redis限制发送频率和日发送次数">
+                发送短信(四):使用Redis限制发送频率和日发送次数 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTU3OS84MTQz"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">LBK</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/iamlbk" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:i.am.t.lbk@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://javapapers.com/" title="javapapers" target="_blank">javapapers</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.importnew.com/" title="ImportNew" target="_blank">ImportNew</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.oschina.net/" title="开源中国" target="_blank">开源中国</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.jobbole.com/" title="伯乐在线" target="_blank">伯乐在线</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.tuicool.com/" title="推酷" target="_blank">推酷</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.csdn.net/" title="CSDN" target="_blank">CSDN</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ruanyifeng.com/home.html" title="阮一峰的个人网站" target="_blank">阮一峰的个人网站</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://coolshell.cn/" title="酷壳" target="_blank">酷壳</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.techug.com/" title="程序师" target="_blank">程序师</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据表结构"><span class="nav-number">1.</span> <span class="nav-text">数据表结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#限制日发送次数"><span class="nav-number">2.</span> <span class="nav-text">限制日发送次数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用动态表"><span class="nav-number">3.</span> <span class="nav-text">使用动态表</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LBK</span>
+
+  
+
+  <a href="http://www.miitbeian.gov.cn" target="_blank" rel="noopener norefferrer" >豫ICP备17045145号</a>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.3"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("zfThM0TOskYvTLdXvRQwjHEs-gzGzoHsz", "ULQ1UuYWWSXMbllP1V0Ag3s7");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

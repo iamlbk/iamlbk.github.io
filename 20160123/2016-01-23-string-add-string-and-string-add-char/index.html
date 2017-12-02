@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="vxko_SNsLo1Ov0YcfVGTnHlFtBsyn4UgL3HxOYOmoSg" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java String, java, java char, javap" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="BK的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="今天我们来考虑一个关于java中String的问题:  &amp;quot;abc&amp;quot; + &amp;#39;/&amp;#39;和 &amp;quot;abc&amp;quot; + &amp;quot;/&amp;quot;的区别. 通过这个例子, 我们可以顺便练习一下JDK工具中javap的用法.这个问题是以前在csdn论坛中看到的. 原问题是这样的:  把斜杠/当作字符或字符串有什么区别呢？一个是当作基本数据类型char，一个是对象St">
+<meta name="keywords" content="java String, java, java char, javap">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java中String+String和String+char的区别">
+<meta property="og:url" content="http://www.iamlbk.com/20160123/2016-01-23-string-add-string-and-string-add-char/index.html">
+<meta property="og:site_name" content="BK的博客">
+<meta property="og:description" content="今天我们来考虑一个关于java中String的问题:  &amp;quot;abc&amp;quot; + &amp;#39;/&amp;#39;和 &amp;quot;abc&amp;quot; + &amp;quot;/&amp;quot;的区别. 通过这个例子, 我们可以顺便练习一下JDK工具中javap的用法.这个问题是以前在csdn论坛中看到的. 原问题是这样的:  把斜杠/当作字符或字符串有什么区别呢？一个是当作基本数据类型char，一个是对象St">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-10-29T13:30:54.172Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java中String+String和String+char的区别">
+<meta name="twitter:description" content="今天我们来考虑一个关于java中String的问题:  &amp;quot;abc&amp;quot; + &amp;#39;/&amp;#39;和 &amp;quot;abc&amp;quot; + &amp;quot;/&amp;quot;的区别. 通过这个例子, 我们可以顺便练习一下JDK工具中javap的用法.这个问题是以前在csdn论坛中看到的. 原问题是这样的:  把斜杠/当作字符或字符串有什么区别呢？一个是当作基本数据类型char，一个是对象St">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'B29BFOGDU0',
+      apiKey: '5301a7e85ba88d13b4312a45148ac9c0',
+      indexName: 'blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"搜索博客","hits_empty":"未发现与「${query}」相关的内容","hits_stats":"${hits}条相关条目，使用了${time}毫秒"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.iamlbk.com/20160123/2016-01-23-string-add-string-and-string-add-char/"/>
+
+
+
+
+
+  <title>java中String+String和String+char的区别 | BK的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?cc3a9cc5c3c02e07533ae2a0d33e05d2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">BK的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录成长的轨迹</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iamlbk.com/20160123/2016-01-23-string-add-string-and-string-add-char/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LBK">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BK的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">java中String+String和String+char的区别</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-23T15:59:34+08:00">
+                2016-01-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程语言/" itemprop="url" rel="index">
+                    <span itemprop="name">编程语言</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/20160123/2016-01-23-string-add-string-and-string-add-char/" class="leancloud_visitors" data-flag-title="java中String+String和String+char的区别">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今天我们来考虑一个关于java中String的问题:  &quot;abc&quot; + &#39;/&#39;和 &quot;abc&quot; + &quot;/&quot;的区别. 通过这个例子, 我们可以顺便练习一下JDK工具中javap的用法.<br>这个问题是以前在csdn论坛中看到的. 原问题是这样的:</p>
+<blockquote>
+<p>把斜杠/当作字符或字符串有什么区别呢？<br><br>一个是当作基本数据类型char，一个是对象String。具体有什么区别呢？<br><br>当作字符效率会更高吗？<br><br><code>String str = &quot;abc&quot; + &#39;/&#39;;</code><br><br>和<br><br><code>String str = &quot;abc&quot; + &quot;/&quot;;</code><br></p>
+</blockquote>
+<a id="more"></a>
+<h2 id="编译器优化"><a href="#编译器优化" class="headerlink" title="编译器优化"></a>编译器优化</h2><p>首先大家应该知道, 上面那两句效果是一样的, 因为编译器会把上面那两句都优化成下面的样子:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">String str = <span class="string">"abc/"</span>;</div></pre></td></tr></table></figure></p>
+<p>我们可以通过javap证明这一点. 关于javap, 可以参考《<a href="http://www.csdn.net/article/2014-11-20/2822750-5-JDK-Tools-Every-Java-Developer-Should-Know?reload=1" title="每个Java开发者都应该知道的5个JDK工具" target="_blank" rel="external">每个Java开发者都应该知道的5个JDK工具</a>》.<br>我们首先创建一个类: <code>StringOne</code>, 在主方法中填入下面的代码(<a href="/downloads/code/2016/01/StringAddString.zip" title="下载源码">下载源码</a>):<br><figure class="highlight java"><figcaption><span>StringOne.java</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">String str1 = <span class="string">"abc"</span> + <span class="string">'/'</span>;</div><div class="line">String str2 = <span class="string">"abc"</span> + <span class="string">"/"</span>;</div><div class="line">System.out.println(str1 == str2);</div></pre></td></tr></table></figure></p>
+<p>编译并运行, 输出结果为<code>true</code>. 接下来, 该我们的javap登场了, 在命令行中输入下面的命令:<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">javap -v -l StringOne.class &gt; StringOne.s</div></pre></td></tr></table></figure></p>
+<p>然后查看生成的StringOne.s文件. 就会发现其中有这么几行(注：javap生成文件中指令的含义可以参考这几篇博客:《<a href="http://www.cnblogs.com/chenqiangjsj/archive/2011/04/02/2003892.html" title="Java栈和局部变量操作（一）" target="_blank" rel="external">Java栈和局部变量操作（一）</a>》,《<a href="http://www.cnblogs.com/chenqiangjsj/archive/2011/04/03/2004231.html" title="Java栈和局部变量操作（二）" target="_blank" rel="external">Java栈和局部变量操作（二）</a>》,《<a href="http://blog.163.com/hfut_quyouhu/blog/static/7847183520127214559314/" title="java指令集" target="_blank" rel="external">java指令集</a>》):<br><figure class="highlight plain"><figcaption><span>StringOne.s</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&amp;#35;2 = String             #20            // abc/</div><div class="line">...</div><div class="line">&amp;#35;20 = Utf8               abc/</div><div class="line">...</div><div class="line">0: ldc           #2                  // String abc/</div><div class="line">2: astore_1</div><div class="line">3: ldc           #2                  // String abc/</div><div class="line">5: astore_2</div></pre></td></tr></table></figure></p>
+<p>说明<code>str1</code>和<code>str2</code>都引用字符串<code>&quot;abc\&quot;</code>.</p>
+<h2 id="使用javap分析差异"><a href="#使用javap分析差异" class="headerlink" title="使用javap分析差异"></a>使用javap分析差异</h2><p>现在我们换一个问法, 下面的代码中<code>stringAddString</code>和<code>stringAddChar</code>方法有什么区别?<br><figure class="highlight java"><figcaption><span>StringTwo</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">stringAddString</span><span class="params">(String str1, String str2)</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> str1 + str2;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">stringAddChar</span><span class="params">(String str, <span class="keyword">char</span> ch)</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> str + ch;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这次再使用javap进行反编译, 生成文件的部分内容如下所示<br><figure class="highlight plain"><figcaption><span>StringTwo.s</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">public java.lang.String stringAddString(java.lang.String, java.lang.String);</div><div class="line">  descriptor: (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;</div><div class="line">  flags: ACC_PUBLIC</div><div class="line">  Code:</div><div class="line">    stack=2, locals=3, args_size=3</div><div class="line">       0: new           #2                  // class java/lang/StringBuilder</div><div class="line">       3: dup</div><div class="line">       4: invokespecial #3                  // Method java/lang/StringBuilder.&quot;&lt;  init&gt;&quot;:()V</div><div class="line">       7: aload_1</div><div class="line">       8: invokevirtual #4                  // Method java/lang/StringBuilder.  append:(Ljava/lang/String;)Ljava/lang/StringBuilder;</div><div class="line">      11: aload_2</div><div class="line">      12: invokevirtual #4                  // Method java/lang/StringBuilder.  append:(Ljava/lang/String;)Ljava/lang/StringBuilder;</div><div class="line">      15: invokevirtual #5                  // Method java/lang/StringBuilder.  toString:()Ljava/lang/String;</div><div class="line">      18: areturn</div><div class="line"></div><div class="line">public java.lang.String stringAddChar(java.lang.String, char);</div><div class="line">  descriptor: (Ljava/lang/String;C)Ljava/lang/String;</div><div class="line">  flags: ACC_PUBLIC</div><div class="line">  Code:</div><div class="line">    stack=2, locals=3, args_size=3</div><div class="line">       0: new           #2                  // class java/lang/StringBuilder</div><div class="line">       3: dup</div><div class="line">       4: invokespecial #3                  // Method java/lang/StringBuilder.&quot;&lt;init&gt;&quot;:()V</div><div class="line">       7: aload_1</div><div class="line">       8: invokevirtual #4                  // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;</div><div class="line">      11: iload_2</div><div class="line">      12: invokevirtual #6                  // Method java/lang/StringBuilder.append:(C)Ljava/lang/StringBuilder;</div><div class="line">      15: invokevirtual #5                  // Method java/lang/StringBuilder.toString:()Ljava/lang/String;</div><div class="line">      18: areturn</div></pre></td></tr></table></figure></p>
+<p>现在, 我们已经可以很清楚的看出这两个方法执行的流程了:</p>
+<p><strong>stringAddString</strong></p>
+<ul>
+<li>创建一个<code>StringBuilder</code>对象</li>
+<li>使用<code>append</code>方法, 依次将两个参数添加到刚才创建的<code>StringBuilder</code>中.</li>
+<li>调用<code>toString</code>方法.</li>
+<li><code>return</code> <code>toString</code>方法的返回值.</li>
+</ul>
+<p><code>stringAddChar</code>的过程和<code>stringAddString</code>一样, 只是在第二次调用<code>append</code>方法时<code>stringAddString</code>的参数是<code>String</code>类型, 而<code>stringAddChar</code>的参数是<code>char</code>类型.</p>
+<h2 id="StringBuilder类的append-char-方法和append-String-方法"><a href="#StringBuilder类的append-char-方法和append-String-方法" class="headerlink" title="StringBuilder类的append(char)方法和append(String)方法"></a>StringBuilder类的append(char)方法和append(String)方法</h2><p>这里，我们直接查看源码就好了（我的是jdk1.8.0_60附带的源码）。<br><strong>注意，虽然文档上显示<code>StringBuilder</code>继承自<code>Object</code>, 但是从源码来看, 它是继承自抽象类<code>AbstractStringBuilder</code>的。而且<code>append</code>方法是由<code>AbstractStringBuilder</code>实现的。</strong></p>
+<figure class="highlight java"><figcaption><span>AbstractStringBuilder.java</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> AbstractStringBuilder <span class="title">append</span><span class="params">(<span class="keyword">char</span> c)</span> </span>&#123;</div><div class="line">    ensureCapacityInternal(count + <span class="number">1</span>);    <span class="comment">// 确保数组能够容纳count+1个字符</span></div><div class="line">    value[count++] = c;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> AbstractStringBuilder <span class="title">append</span><span class="params">(String str)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (str == <span class="keyword">null</span>)</div><div class="line">        <span class="keyword">return</span> appendNull();</div><div class="line">    <span class="keyword">int</span> len = str.length();</div><div class="line">    ensureCapacityInternal(count + len);</div><div class="line">    str.getChars(<span class="number">0</span>, len, value, count);  <span class="comment">// 拷贝字符串中的字符数组到本对象的字符数组中</span></div><div class="line">    count += len;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>剩下的就不再贴出来了。<code>String.getChars(int, int, char[], int)</code>最终依赖于<code>public static native void arraycopy(Object, int, Object, int, int)</code>。也就是说有可能是C语言写的，在拷贝大型数组时效率应该会比java写的程序好一些。<br>那么，现在说说我的理解：</p>
+<ul>
+<li>从直接内存来说, 由于<code>String</code>中包含char数组, 而数组应该是有长度字段的, 同时<code>String</code>类还有一个<code>int hash</code>属性, 再加上对象本身会占用额外的内存存储其他信息，所以字符串会多占用一些内存. 但是如果字符串非常长, 那么这些内存开销差不多就可以忽略了; 而如果像<code>&quot;/&quot;</code>这种情况, 字符串比较(非常)短,那么就很可能有许多个共享引用来分担这些内存开销, 那么多余的内存开销还是可以忽略的.</li>
+<li>从调用堆栈上, 由于这里<code>String</code>只比<code>char</code>多了一两层函数调用，所以如果不考虑函数调用开销(包括时间和空间), 应该差不多;考虑函数调用开销, <strong><em>应该</em></strong> <strong><code>&quot;abc&quot; + &#39;/&#39;</code></strong>更好一些; 但是当需要连接若干个字符时(感觉这种情况应该更常见吧?), 由于使用<code>char</code>需要循环好多次才能完成连接, 调用的函数次数只会比使用<code>String</code>更多. 同时拷贝也不会比<code>String</code>直接拷贝一个数组更快. 所以这个时候就变成了<strong><code>&quot;abc&quot; + &quot;/&quot;</code></strong>吞吐量更大.</li>
+</ul>
+<p>现在感觉这个问题像是在问: 读写文件时使用系统调用效率高, 还是使用标准函数库中的IO库效率高. 个人感觉, 虽然标准IO库最后还得调用系统调用, 而且这之间会产生一些临时变量, 以及更深层次的调用堆栈, 但是由于IO库的缓冲等机制, 所以IO库的吞吐量会更大, 而系统调用的实时性会好一些. 同样, 虽然<code>String</code>类会多几个字段, 有更深层次的函数堆栈, 但是由于缓存以及更直接的拷贝, 吞吐量应该会更好一些.</p>
+<h2 id="新的问题"><a href="#新的问题" class="headerlink" title="新的问题"></a>新的问题</h2><p>从上面javap的反编译代码来看, 两个<code>String</code>相加, 会变成向<code>StringBuilder</code>中<code>append</code>字符串. 那么理论上, 下面哪段代码的效率好呢?<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">String str1 = <span class="string">"abc"</span> + <span class="string">"123"</span>;    <span class="comment">// 1</span></div><div class="line"></div><div class="line">StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder();  <span class="comment">// 2</span></div><div class="line">stringBuilder.append(<span class="string">"abc"</span>);</div><div class="line">stringBuilder.append(<span class="string">"123"</span>);</div><div class="line">String str2 = stringBuilder.toString();</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/reward/wechat.png" alt="LBK 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/reward/alipay.jpg" alt="LBK 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    LBK
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.iamlbk.com/20160123/2016-01-23-string-add-string-and-string-add-char/" title="java中String+String和String+char的区别">http://www.iamlbk.com/20160123/2016-01-23-string-add-string-and-string-add-char/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/20160111/2016-01-11-why-spring-transaction-invalid/" rel="next" title="spring事务管理失效的原因">
+                <i class="fa fa-chevron-left"></i> spring事务管理失效的原因
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20160129/2016-01-29-get-collection-by-sum/" rel="prev" title="从N个数中取M个和为指定值的数">
+                从N个数中取M个和为指定值的数 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTU3OS84MTQz"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">LBK</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/iamlbk" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:i.am.t.lbk@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://javapapers.com/" title="javapapers" target="_blank">javapapers</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.importnew.com/" title="ImportNew" target="_blank">ImportNew</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.oschina.net/" title="开源中国" target="_blank">开源中国</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.jobbole.com/" title="伯乐在线" target="_blank">伯乐在线</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.tuicool.com/" title="推酷" target="_blank">推酷</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.csdn.net/" title="CSDN" target="_blank">CSDN</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ruanyifeng.com/home.html" title="阮一峰的个人网站" target="_blank">阮一峰的个人网站</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://coolshell.cn/" title="酷壳" target="_blank">酷壳</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.techug.com/" title="程序师" target="_blank">程序师</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#编译器优化"><span class="nav-number">1.</span> <span class="nav-text">编译器优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用javap分析差异"><span class="nav-number">2.</span> <span class="nav-text">使用javap分析差异</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StringBuilder类的append-char-方法和append-String-方法"><span class="nav-number">3.</span> <span class="nav-text">StringBuilder类的append(char)方法和append(String)方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新的问题"><span class="nav-number">4.</span> <span class="nav-text">新的问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LBK</span>
+
+  
+
+  <a href="http://www.miitbeian.gov.cn" target="_blank" rel="noopener norefferrer" >豫ICP备17045145号</a>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.3"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("zfThM0TOskYvTLdXvRQwjHEs-gzGzoHsz", "ULQ1UuYWWSXMbllP1V0Ag3s7");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
