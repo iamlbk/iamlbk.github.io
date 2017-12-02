@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-Hans">
+<html class="theme-next gemini use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -83,20 +83,20 @@
 
 
 
-<meta name="description" content="octopress默认只有分类,没有标签.这让习惯使用三四个分类, 无数个标签管理博客的我很不习惯.于是在网上找为octopress添加标签的方式. 这篇博客的部分内容参考:《[为octopress添加tag cloud][octopress-add-tag-cloud]》.">
+<meta name="description" content="octopress默认只有分类,没有标签.这让习惯使用三四个分类, 无数个标签管理博客的我很不习惯.于是在网上找为octopress添加标签的方式. 这篇博客的部分内容参考:《为octopress添加tag cloud》.">
 <meta name="keywords" content="octopress, github page, octopress tag cloud, octopress标签, 定制octopress">
 <meta property="og:type" content="article">
 <meta property="og:title" content="为octopress添加标签">
 <meta property="og:url" content="http://www.iamlbk.com/20160108/2016-01-08-octopress-add-tag-cloud/index.html">
 <meta property="og:site_name" content="BK的博客">
-<meta property="og:description" content="octopress默认只有分类,没有标签.这让习惯使用三四个分类, 无数个标签管理博客的我很不习惯.于是在网上找为octopress添加标签的方式. 这篇博客的部分内容参考:《[为octopress添加tag cloud][octopress-add-tag-cloud]》.">
+<meta property="og:description" content="octopress默认只有分类,没有标签.这让习惯使用三四个分类, 无数个标签管理博客的我很不习惯.于是在网上找为octopress添加标签的方式. 这篇博客的部分内容参考:《为octopress添加tag cloud》.">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://www.iamlbk.com/images/2016/01/archives-list-tags.png">
 <meta property="og:image" content="http://www.iamlbk.com/images/2016/01/archives-tags.png">
-<meta property="og:updated_time" content="2017-10-29T13:30:45.679Z">
+<meta property="og:updated_time" content="2017-12-02T16:23:20.655Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="为octopress添加标签">
-<meta name="twitter:description" content="octopress默认只有分类,没有标签.这让习惯使用三四个分类, 无数个标签管理博客的我很不习惯.于是在网上找为octopress添加标签的方式. 这篇博客的部分内容参考:《[为octopress添加tag cloud][octopress-add-tag-cloud]》.">
+<meta name="twitter:description" content="octopress默认只有分类,没有标签.这让习惯使用三四个分类, 无数个标签管理博客的我很不习惯.于是在网上找为octopress添加标签的方式. 这篇博客的部分内容参考:《为octopress添加tag cloud》.">
 <meta name="twitter:image" content="http://www.iamlbk.com/images/2016/01/archives-list-tags.png">
 
 
@@ -105,7 +105,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Pisces',
+    scheme: 'Gemini',
     version: '5.1.3',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -398,8 +398,8 @@
       
 
       
-        <p>octopress默认只有分类,没有标签.这让习惯使用三四个分类, 无数个标签管理博客的我很不习惯.<br>于是在网上找为octopress添加标签的方式. 这篇博客的部分内容参考:《[为octopress添加tag cloud][octopress-add-tag-cloud]》.<br><a id="more"></a></p>
-<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>首先, 下载需要的插件: [octopress-tag-pages][]和[octopress-tag-cloud][]. 使用git clone或者直接下载压缩包都行.</p>
+        <p>octopress默认只有分类,没有标签.这让习惯使用三四个分类, 无数个标签管理博客的我很不习惯.<br>于是在网上找为octopress添加标签的方式. 这篇博客的部分内容参考:《<a href="http://codemacro.com/2012/07/18/add-tag-to-octopress" target="_blank" rel="external">为octopress添加tag cloud</a>》.<br><a id="more"></a></p>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>首先, 下载需要的插件: <a href="https://github.com/robbyedwards/octopress-tag-pages" target="_blank" rel="external">octopress-tag-pages</a>和<a href="https://github.com/robbyedwards/octopress-tag-cloud" target="_blank" rel="external">octopress-tag-cloud</a>. 使用git clone或者直接下载压缩包都行.</p>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>安装其实很简单, 只需要将下面几个文件复制到octopress中相应的目录中即可:</p>
 <p>octopress-tag-pages中的</p>
 <ul>
@@ -427,12 +427,11 @@
 <p>这时就可以正常使用了.</p>
 <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="中文化"><a href="#中文化" class="headerlink" title="中文化"></a>中文化</h3><p>如果用户点击边栏上的标签, 会跳转到标签页. 而标签页的默认标题为:<code>Tag: 标签名</code>.<br>如果想将其中的”Tag:”换成中文的, 可以在_config.yml中添加下面的内容:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">tag_title_prefix:</span> <span class="string">"标签--"</span></div></pre></td></tr></table></figure></p>
 <p>重新生成一下, 标题就会变成<code>标签--标签名</code></p>
-<h3 id="配置边栏中标签的数量"><a href="#配置边栏中标签的数量" class="headerlink" title="配置边栏中标签的数量"></a>配置边栏中标签的数量</h3><p>[octopress-tag-cloud][]的文档上说可以使用limit限制显示标签的数量(刚开始遇到的错误也是因为配置的limit太大了造成的). 直接修改source/_includes/custom/asides/tags.html中的limit后面的数字即可:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;#123;% tag_cloud font-size: 60-165%, limit: 15 %&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="配置边栏中标签的数量"><a href="#配置边栏中标签的数量" class="headerlink" title="配置边栏中标签的数量"></a>配置边栏中标签的数量</h3><p>[octopress-tag-cloud][]的文档上说可以使用limit限制显示标签的数量(刚开始遇到的错误也是因为配置的limit太大了造成的). 直接修改source/_includes/custom/asides/tags.html中的limit后面的数字即可:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;% tag_cloud font-size: 60-165%, limit: 15 %&#125;</div></pre></td></tr></table></figure></p>
 <h3 id="在文章列表中显示标签"><a href="#在文章列表中显示标签" class="headerlink" title="在文章列表中显示标签"></a>在文章列表中显示标签</h3><p>效果如图:<br><img src="/images/2016/01/archives-list-tags.png" class="center"><br>将octopress-tag-pages插件中的source/_includes/archive_post.html复制到octopress中的source/_includes/目录下, 该文件本来已经有了, 直接覆盖就可以.</p>
 <p>或者如果你已经修改过octopress中的source/_includes/archive_post.html文件了, 那么可以参考插件中的文件, 直接将<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&amp;#123;% if tag != &apos;0&apos; %&#125;</div><div class="line">  &lt;span class=&quot;tags&quot;&gt;tagged with &amp;#123;&#123; post.tags | tag_links &#125;&#125;&lt;/span&gt;</div><div class="line">&amp;#123;% endif %&#125;</div></pre></td></tr></table></figure></p>
 <p>复制到octopress下的文件中的特定位置即可.</p>
 <h3 id="在博客下面或者上面显示标签"><a href="#在博客下面或者上面显示标签" class="headerlink" title="在博客下面或者上面显示标签"></a>在博客下面或者上面显示标签</h3><p>还是先上个图:<br><img src="/images/2016/01/archives-tags.png" class="center"><br>参考octopress-tag-pages插件中的source/_layouts目录中的post.html, 修改octopress下的post.html, 比如我的post.html中相应的部分是这样的:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;p class=&quot;meta&quot;&gt;</div><div class="line">    &amp;#123;% include post/categories.html %&#125;</div><div class="line">    &amp;#123;% include post/tags.html %&#125;</div><div class="line">    &lt;br/&gt;</div><div class="line">    &amp;#123;% include post/author.html %&#125;</div><div class="line">    &amp;#123;% include post/date.html %&#125;</div><div class="line">    &amp;#123;&#123; time &#125;&#125;</div><div class="line">    &amp;#123;% if updated %&#125; </div><div class="line">        &amp;#123;&#123; updated &#125;&#125;</div><div class="line">    &amp;#123;% endif %&#125;</div><div class="line">&lt;/p&gt;</div></pre></td></tr></table></figure></p>
-<p>[octopress-add-tag-cloud]: <a href="http://codemacro.com/2012/07/18/add-tag-to-octopress" target="_blank" rel="external">http://codemacro.com/2012/07/18/add-tag-to-octopress</a> 为octopress添加tag cloud<br>[octopress-tag-pages]: <a href="https://github.com/robbyedwards/octopress-tag-pages" target="_blank" rel="external">https://github.com/robbyedwards/octopress-tag-pages</a> octopress-tag-pages<br>[octopress-tag-cloud]: <a href="https://github.com/robbyedwards/octopress-tag-cloud" target="_blank" rel="external">https://github.com/robbyedwards/octopress-tag-cloud</a> octopress-tag-cloud</p>
 
       
     </div>
@@ -680,12 +679,6 @@ var jiathis_config={
                       <i class="fa fa-fw fa-github"></i>GitHub</a>
                 </span>
               
-                <span class="links-of-author-item">
-                  <a href="mailto:i.am.t.lbk@gmail.com" target="_blank" title="E-Mail">
-                    
-                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                </span>
-              
             
           </div>
 
@@ -796,7 +789,7 @@ var jiathis_config={
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
 
 
 

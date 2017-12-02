@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-Hans">
+<html class="theme-next gemini use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="BK的博客">
 <meta property="og:description" content="有一个比较常见的问题: 从n个数中取出m个数, 要求这m个数之和是一个固定值. 在n和m比较小时我们直接使用穷举就可以解决这个问题, 但是在n和m比较大时这种方法并不可行. 本文尝试着给出n和m比较大时的解决办法. 当然, 由于本人的水平有限, 无法完全解决这个问题. 所以这种方法有它的局限性, 而且效率也并没有提高太多, 在遇到过大的n和m时仍旧无法使用. 写这篇博客, 同样是因为csdn上的一">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-29T13:31:03.064Z">
+<meta property="og:updated_time" content="2017-12-02T16:44:53.548Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从N个数中取M个和为指定值的数">
 <meta name="twitter:description" content="有一个比较常见的问题: 从n个数中取出m个数, 要求这m个数之和是一个固定值. 在n和m比较小时我们直接使用穷举就可以解决这个问题, 但是在n和m比较大时这种方法并不可行. 本文尝试着给出n和m比较大时的解决办法. 当然, 由于本人的水平有限, 无法完全解决这个问题. 所以这种方法有它的局限性, 而且效率也并没有提高太多, 在遇到过大的n和m时仍旧无法使用. 写这篇博客, 同样是因为csdn上的一">
@@ -102,7 +102,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Pisces',
+    scheme: 'Gemini',
     version: '5.1.3',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -399,9 +399,9 @@
 <p>写这篇博客, 同样是因为csdn上的一个帖子. 这个帖子中要求从125个数中挑选出21个数. 这两个数字对于许多问题来说并不是很大. 但是如果这里采用穷举的方法解决的话, 需要尝试的次数大家可以计算一下…这里我们首先给出穷举法的实现, 之后针对这个题目进行改进, 使程序的运行时间在可以接受的范围内.</p>
 <a id="more"></a>
 <h2 id="穷举法"><a href="#穷举法" class="headerlink" title="穷举法"></a>穷举法</h2><p>要使用穷举法解决这个问题, 就太简单了(虽然运行时间长的不能忍受). 我最先想到的就是使用递归. 废话不多说, 看代码:<br><figure class="highlight java"><figcaption><span>ArraySum.java</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">calNextNumber</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> sum, <span class="keyword">int</span> count)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span>(sum == <span class="number">0</span> &amp;&amp; count ==<span class="number">0</span>)&#123;  <span class="comment">// 符合条件</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 剩余的数字不足 或者 选择的数的和已经超过了总和</span></div><div class="line">    <span class="keyword">if</span> (start + count &gt; array.length || sum &lt;= <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=start; i&lt;array.length; i++) &#123;</div><div class="line">        <span class="keyword">int</span> nextSum = sum - array[i];</div><div class="line">        calResult.offerLast(array[i]);  <span class="comment">// 将可能的结果压入结果栈中</span></div><div class="line">        <span class="keyword">if</span>(calNextNumber(i + <span class="number">1</span>, nextSum, count - <span class="number">1</span>))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        calResult.pollLast();   <span class="comment">// 不符合要求, 从结果栈中弹出</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这里只给出了关键的代码, 完整代码可以在<a href="/downloads/code/2016/01/getArrayBySum.zip" title="下载源码">这里</a>下载. 帖子中的数据太长了, 也没有贴出来, 各位可以在源码中看到, 或者到《[求解求哪几个数字之和等于一个固定值][csdn post]》里面查看.</p>
+<p>这里只给出了关键的代码, 完整代码可以在<a href="/downloads/code/2016/01/getArrayBySum.zip" title="下载源码">这里</a>下载. 帖子中的数据太长了, 也没有贴出来, 各位可以在源码中看到, 或者到《<a href="http://bbs.csdn.net/topics/391897373" title="求解求哪几个数字之和等于一个固定值" target="_blank" rel="external">求解求哪几个数字之和等于一个固定值</a>》里面查看.</p>
 <p>如果使用我自己随便输入的测试数据, 几乎一瞬间就可以计算出来, 而如果用这个程序去计算那个帖子中给的数据, 在我的电脑上跑了两个小时, 还没有计算出来…</p>
-<h2 id="针对帖子中数据的优化"><a href="#针对帖子中数据的优化" class="headerlink" title="针对帖子中数据的优化"></a>针对帖子中数据的优化</h2><p>首先感谢[kinkon007][]的提醒: </p>
+<h2 id="针对帖子中数据的优化"><a href="#针对帖子中数据的优化" class="headerlink" title="针对帖子中数据的优化"></a>针对帖子中数据的优化</h2><p>首先感谢<a href="http://my.csdn.net/kinkon007" title="kinkon007的csdn主页" target="_blank" rel="external">kinkon007</a>的提醒: </p>
 <blockquote>
 <p>可以看到sum的尾数是7，那只有几种情况存在，0+7,1+6,2+5,3+4，先固定匹配好两个尾数，然后再选择其他的数来凑和。</p>
 </blockquote>
@@ -412,9 +412,7 @@
 <h2 id="这种方法的限制"><a href="#这种方法的限制" class="headerlink" title="这种方法的限制"></a>这种方法的限制</h2><p>这种方法并不是可以使用所有的情况. </p>
 <p>首先, 所有的数字需要可以大致均匀的分解成较多的组, 至少不能全部都在一个或者两个组中, 那样的话, 我们进行分组就有没意义了. </p>
 <p>其次, 由于这里可以分得组并不是太多, 所以如果数字过多, 即使可以均匀的分组, 但是如果一个组的数字过多, 同样不适用. 这也是需要改进的地方. </p>
-<p>当然, 还有一个缺点: 这里的代码有点饶. 尤其是<code>ArraySum1</code>中的<code>calNextNumber</code>方法. 或许可以在《[从N个数中取出任意个数，求和为指定值的解][csdn blog]》的基础上进行修改. 由于这篇博客中精巧的设计, 记录上一次的状态非常简单, 可以让程序简单许多. 这里就不提供代码了, 各位可以试试.</p>
-<p>[csdn post]: <a href="http://bbs.csdn.net/topics/391897373" target="_blank" rel="external">http://bbs.csdn.net/topics/391897373</a> 求解求哪几个数字之和等于一个固定值</p>
-<p>[kinkon007]: <a href="http://my.csdn.net/kinkon007" target="_blank" rel="external">http://my.csdn.net/kinkon007</a> kinkon007的csdn主页<br>[csdn blog]: <a href="http://blog.csdn.net/min_jie/article/details/3966867" target="_blank" rel="external">http://blog.csdn.net/min_jie/article/details/3966867</a> 从N个数中取出任意个数，求和为指定值的解</p>
+<p>当然, 还有一个缺点: 这里的代码有点饶. 尤其是<code>ArraySum1</code>中的<code>calNextNumber</code>方法. 或许可以在《<a href="http://blog.csdn.net/min_jie/article/details/3966867" title="从N个数中取出任意个数，求和为指定值的解" target="_blank" rel="external">从N个数中取出任意个数，求和为指定值的解</a>》的基础上进行修改. 由于这篇博客中精巧的设计, 记录上一次的状态非常简单, 可以让程序简单许多. 这里就不提供代码了, 各位可以试试.</p>
 
       
     </div>
@@ -660,12 +658,6 @@ var jiathis_config={
                       <i class="fa fa-fw fa-github"></i>GitHub</a>
                 </span>
               
-                <span class="links-of-author-item">
-                  <a href="mailto:i.am.t.lbk@gmail.com" target="_blank" title="E-Mail">
-                    
-                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                </span>
-              
             
           </div>
 
@@ -776,7 +768,7 @@ var jiathis_config={
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
 
 
 

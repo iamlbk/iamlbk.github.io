@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-Hans">
+<html class="theme-next gemini use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -83,18 +83,18 @@
 
 
 
-<meta name="description" content="由于最近在学习hadoop, 需要ssh免密码登录, 所以学习了一下ssh免密码安装. 在这里记录一下ssh免密码登录的方法和使用场合. 单机免密码登录如果要ssh免密码登录本机, 比如是伪分布模式安装hadoop的话, 就需要ssh免密码登录本机. 那么我们可以使用如下的方式实现免密码登录:123456789101112131415161718192021222324252627282930ss">
+<meta name="description" content="由于最近在学习hadoop, 需要ssh免密码登录, 所以学习了一下ssh免密码安装. 在这里记录一下ssh免密码登录的方法和使用场合. 单机免密码登录如果要ssh免密码登录本机, 比如是伪分布模式安装hadoop的话, 就需要ssh免密码登录本机. 那么我们可以使用如下的方式实现免密码登录:123ssh-keygen -t rsa -f ~/.ssh/id_rsa -P &apos;&apos;">
 <meta name="keywords" content="ssh, ssh免密码登录, hadoop安装ssh免密码登录">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ssh免密码登录">
 <meta property="og:url" content="http://www.iamlbk.com/20160210/2016-02-10-ssh-no-password-login/index.html">
 <meta property="og:site_name" content="BK的博客">
-<meta property="og:description" content="由于最近在学习hadoop, 需要ssh免密码登录, 所以学习了一下ssh免密码安装. 在这里记录一下ssh免密码登录的方法和使用场合. 单机免密码登录如果要ssh免密码登录本机, 比如是伪分布模式安装hadoop的话, 就需要ssh免密码登录本机. 那么我们可以使用如下的方式实现免密码登录:123456789101112131415161718192021222324252627282930ss">
+<meta property="og:description" content="由于最近在学习hadoop, 需要ssh免密码登录, 所以学习了一下ssh免密码安装. 在这里记录一下ssh免密码登录的方法和使用场合. 单机免密码登录如果要ssh免密码登录本机, 比如是伪分布模式安装hadoop的话, 就需要ssh免密码登录本机. 那么我们可以使用如下的方式实现免密码登录:123ssh-keygen -t rsa -f ~/.ssh/id_rsa -P &apos;&apos;">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-29T13:30:58.207Z">
+<meta property="og:updated_time" content="2017-12-02T16:45:47.406Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ssh免密码登录">
-<meta name="twitter:description" content="由于最近在学习hadoop, 需要ssh免密码登录, 所以学习了一下ssh免密码安装. 在这里记录一下ssh免密码登录的方法和使用场合. 单机免密码登录如果要ssh免密码登录本机, 比如是伪分布模式安装hadoop的话, 就需要ssh免密码登录本机. 那么我们可以使用如下的方式实现免密码登录:123456789101112131415161718192021222324252627282930ss">
+<meta name="twitter:description" content="由于最近在学习hadoop, 需要ssh免密码登录, 所以学习了一下ssh免密码安装. 在这里记录一下ssh免密码登录的方法和使用场合. 单机免密码登录如果要ssh免密码登录本机, 比如是伪分布模式安装hadoop的话, 就需要ssh免密码登录本机. 那么我们可以使用如下的方式实现免密码登录:123ssh-keygen -t rsa -f ~/.ssh/id_rsa -P &apos;&apos;">
 
 
 
@@ -102,7 +102,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Pisces',
+    scheme: 'Gemini',
     version: '5.1.3',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -396,13 +396,21 @@
 
       
         <p>由于最近在学习hadoop, 需要ssh免密码登录, 所以学习了一下ssh免密码安装. 在这里记录一下ssh免密码登录的方法和使用场合.</p>
-<h2 id="单机免密码登录"><a href="#单机免密码登录" class="headerlink" title="单机免密码登录"></a>单机免密码登录</h2><p>如果要ssh免密码登录本机, 比如是伪分布模式安装hadoop的话, 就需要ssh免密码登录本机. 那么我们可以使用如下的方式实现免密码登录:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -f ~/.ssh/id_rsa -P <span class="string">''</span>            <span class="comment"># 生成公私钥</span></div><div class="line">cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys     <span class="comment"># 共享授权密钥</span></div><div class="line">chmod 600 ~/.ssh/authorized_keys                    <span class="comment"># 修改文件权限</span></div><div class="line">``` </div><div class="line">&lt;!--more--&gt;</div><div class="line"><span class="comment">### 命令的解释</span></div><div class="line"></div><div class="line">第一行, 使用`ssh-keygen`生成公私钥.  `-t rsa`指定生成公私钥的算法为rsa. `-f ~/.ssh/id_rsa`指定生成的公私钥存放的文件路径, 其中id_rsa存放的是私钥, id_rsa.pub存放的是公钥. `-P <span class="string">''</span>`指定密码为空.</div><div class="line"></div><div class="line">第二行就不再解释了.</div><div class="line"></div><div class="line">第三行是因为如果authorized_keys文件的权限允许所有者之外的人修改, 那么这个文件中的内容并不起作用. 也就是所有组和其他人都不能拥有写权限, 个人建议权限设置成600. 由于初始时没有authorized_keys文件, 如果authorized_keys文件是由重定向生成的, 那么权限很可能大于644, 所以这里手工修改一下文件权限.</div><div class="line"></div><div class="line"><span class="comment">### 安全性</span></div><div class="line">在生成公私钥时不指定密码确实不是很安全. 例如, 如果有人登录到你的系统, 就可以免密码登录到所有经过授权的机器(这里是本机). 如果有人拿到了你的私钥, 那么也可以免密码登录到所有经过授权的机器. </div><div class="line"></div><div class="line">但是由于这里是登录本机, 基本上也就不存在安全问题了: 都已经登录到这台机器了, 再ssh登录这台机器也没有多大的意义; 同样, 如果都拿到私钥了, 那么应该也是登录过这台机子了. 而且还有一点是, 这很可能是在开发环境中, 那么对安全性的要求可能就没有那么高了, 而对便利性的要求可能会较高.</div><div class="line"></div><div class="line"><span class="comment">## 一台主机到多台主机免密码登录</span></div><div class="line">这里我们假设我们有四台机器, 主机名分别为: master, slave1, slave2, slave3. 我们的目的是从master免密码登录到slave1-3主机上.</div><div class="line"><span class="comment">### 生成公私钥</span></div><div class="line">如果还是用上面的方式生成公私钥. 如果有人登录了master主机, 那他就可以免密码登录到所有的slave主机上. 同样如果他拷贝走master上的私钥, 也可以免密码登录到所有的slave主机上. 所以这里建议设置密码. 生成公私钥的命令如下:</div><div class="line">```bash</div><div class="line">ssh-keygen -t rsa -f ~/.ssh/id_rsa</div><div class="line">``` </div><div class="line">当提示输入密码时, 输入一个密码即可. 下面我们把生成公私钥时输入的密码简称ssh密码.</div><div class="line"><span class="comment">### 共享公钥</span></div><div class="line">这里我们先使用`ssh-copy-id`完成共享公钥. 在master主机上执行如下命令:</div><div class="line">```bash</div><div class="line">ssh-copy-id -i ~/.ssh/id_rsa.pub slave1</div></pre></td></tr></table></figure></p>
+<h2 id="单机免密码登录"><a href="#单机免密码登录" class="headerlink" title="单机免密码登录"></a>单机免密码登录</h2><p>如果要ssh免密码登录本机, 比如是伪分布模式安装hadoop的话, 就需要ssh免密码登录本机. 那么我们可以使用如下的方式实现免密码登录:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -f ~/.ssh/id_rsa -P <span class="string">''</span>            <span class="comment"># 生成公私钥</span></div><div class="line">cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys     <span class="comment"># 共享授权密钥</span></div><div class="line">chmod 600 ~/.ssh/authorized_keys                    <span class="comment"># 修改文件权限</span></div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h3 id="命令的解释"><a href="#命令的解释" class="headerlink" title="命令的解释"></a>命令的解释</h3><p>第一行, 使用<code>ssh-keygen</code>生成公私钥.  <code>-t rsa</code>指定生成公私钥的算法为rsa. <code>-f ~/.ssh/id_rsa</code>指定生成的公私钥存放的文件路径, 其中id_rsa存放的是私钥, id_rsa.pub存放的是公钥. <code>-P &#39;&#39;</code>指定密码为空.</p>
+<p>第二行就不再解释了.</p>
+<p>第三行是因为如果authorized_keys文件的权限允许所有者之外的人修改, 那么这个文件中的内容并不起作用. 也就是所有组和其他人都不能拥有写权限, 个人建议权限设置成600. 由于初始时没有authorized_keys文件, 如果authorized_keys文件是由重定向生成的, 那么权限很可能大于644, 所以这里手工修改一下文件权限.</p>
+<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>在生成公私钥时不指定密码确实不是很安全. 例如, 如果有人登录到你的系统, 就可以免密码登录到所有经过授权的机器(这里是本机). 如果有人拿到了你的私钥, 那么也可以免密码登录到所有经过授权的机器. </p>
+<p>但是由于这里是登录本机, 基本上也就不存在安全问题了: 都已经登录到这台机器了, 再ssh登录这台机器也没有多大的意义; 同样, 如果都拿到私钥了, 那么应该也是登录过这台机子了. 而且还有一点是, 这很可能是在开发环境中, 那么对安全性的要求可能就没有那么高了, 而对便利性的要求可能会较高.</p>
+<h2 id="一台主机到多台主机免密码登录"><a href="#一台主机到多台主机免密码登录" class="headerlink" title="一台主机到多台主机免密码登录"></a>一台主机到多台主机免密码登录</h2><p>这里我们假设我们有四台机器, 主机名分别为: master, slave1, slave2, slave3. 我们的目的是从master免密码登录到slave1-3主机上.</p>
+<h3 id="生成公私钥"><a href="#生成公私钥" class="headerlink" title="生成公私钥"></a>生成公私钥</h3><p>如果还是用上面的方式生成公私钥. 如果有人登录了master主机, 那他就可以免密码登录到所有的slave主机上. 同样如果他拷贝走master上的私钥, 也可以免密码登录到所有的slave主机上. 所以这里建议设置密码. 生成公私钥的命令如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -f ~/.ssh/id_rsa</div><div class="line">``` </div><div class="line">当提示输入密码时, 输入一个密码即可. 下面我们把生成公私钥时输入的密码简称ssh密码.</div><div class="line"><span class="comment">### 共享公钥</span></div><div class="line">这里我们先使用`ssh-copy-id`完成共享公钥. 在master主机上执行如下命令:</div><div class="line">```bash</div><div class="line">ssh-copy-id -i ~/.ssh/id_rsa.pub slave1</div></pre></td></tr></table></figure></p>
 <p>其中<code>-i ~/.ssh/id_rsa.pub</code>指定我们需要共享的公钥文件. slave1为主机名, 也可以写成对应的ip. 执行这条命令时, 需要输入slave1主机上对应账号的密码.<br>之后我们就可以使用ssh密码登录slave1了. 为了免密码登录, 需要为每一个需要免密码登录的主机都执行一次这条命令.</p>
 <h3 id="配置记住密码"><a href="#配置记住密码" class="headerlink" title="配置记住密码"></a>配置记住密码</h3><p>为了记住密码, 我们需要在master主机中的~/.bash_profile中添加如下的命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">eval</span> `ssh-agent`</div><div class="line">ssh-add</div></pre></td></tr></table></figure></p>
 <p>其中第一行是启动ssh-agent服务. 该服务的作用范围为当前shell. 第二行是把专用密钥添加到ssh-agent的高速缓存中. 需要注意的是, 在执行<code>ssh-add</code>时需要输入ssh密码, 所以在开机输入用户名、密码登录后还会提示输入ssh密码. 如果觉得烦人, 可以在以后手动执行<code>ssh-add</code>.</p>
 <p>到这里我们就可以在<strong>这个shell</strong>中免密码登录slave1-3了. 可以使用<code>ssh slave1</code>登录slave1试试, 如果还需要密码, 说明配置有一些问题. 可以在仔细看看上面的步骤.</p>
 <p>如果需要多台主机到多台主机免密码登录, 那么只需要在多台主机间相互共享公钥就行了. 都配置好记住密码就行了.</p>
-<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>我们假设有两个shell: tty1, tty2. 其中tty1上在登录过以后输入了ssh密码. 而tty2上在登录过没有输入ssh密码. 那么在tty2上登录slave1-3时还是需要输入ssh密码的. 所以, 即使有人登录到master主机上, 不知道ssh密码也是不能免密码登录到slave1-3主机的. 同样的, 就算拷贝走私钥, 也没有用. 所以这样是安全的.</p>
+<h3 id="安全性-1"><a href="#安全性-1" class="headerlink" title="安全性"></a>安全性</h3><p>我们假设有两个shell: tty1, tty2. 其中tty1上在登录过以后输入了ssh密码. 而tty2上在登录过没有输入ssh密码. 那么在tty2上登录slave1-3时还是需要输入ssh密码的. 所以, 即使有人登录到master主机上, 不知道ssh密码也是不能免密码登录到slave1-3主机的. 同样的, 就算拷贝走私钥, 也没有用. 所以这样是安全的.</p>
 <h2 id="其他共享公钥的方式"><a href="#其他共享公钥的方式" class="headerlink" title="其他共享公钥的方式"></a>其他共享公钥的方式</h2><p>在上面我们是使用<code>ssh-copy-id</code>共享公钥的, 但是当主机很多时, 做好做对这件事将是一个很大的挑战; 当要修改密码, 重新生成公私钥时还得同步所有的公钥… </p>
 <p>为了更加方便, 我们可以这样做:</p>
 <p>在一台机器上创建好用户主目录, 然后生成公私钥, 然后将公钥添加到本机的授权文件中. 比如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</div></pre></td></tr></table></figure></p>
@@ -661,12 +669,6 @@ var jiathis_config={
                       <i class="fa fa-fw fa-github"></i>GitHub</a>
                 </span>
               
-                <span class="links-of-author-item">
-                  <a href="mailto:i.am.t.lbk@gmail.com" target="_blank" title="E-Mail">
-                    
-                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                </span>
-              
             
           </div>
 
@@ -737,7 +739,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#单机免密码登录"><span class="nav-number">1.</span> <span class="nav-text">单机免密码登录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置记住密码"><span class="nav-number">1.1.</span> <span class="nav-text">配置记住密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安全性"><span class="nav-number">1.2.</span> <span class="nav-text">安全性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他共享公钥的方式"><span class="nav-number">2.</span> <span class="nav-text">其他共享公钥的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建nfs共享"><span class="nav-number">2.1.</span> <span class="nav-text">创建nfs共享</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动挂载nfs共享"><span class="nav-number">2.2.</span> <span class="nav-text">自动挂载nfs共享</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#单机免密码登录"><span class="nav-number">1.</span> <span class="nav-text">单机免密码登录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#命令的解释"><span class="nav-number">1.1.</span> <span class="nav-text">命令的解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安全性"><span class="nav-number">1.2.</span> <span class="nav-text">安全性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一台主机到多台主机免密码登录"><span class="nav-number">2.</span> <span class="nav-text">一台主机到多台主机免密码登录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#生成公私钥"><span class="nav-number">2.1.</span> <span class="nav-text">生成公私钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置记住密码"><span class="nav-number">2.2.</span> <span class="nav-text">配置记住密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安全性-1"><span class="nav-number">2.3.</span> <span class="nav-text">安全性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他共享公钥的方式"><span class="nav-number">3.</span> <span class="nav-text">其他共享公钥的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建nfs共享"><span class="nav-number">3.1.</span> <span class="nav-text">创建nfs共享</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动挂载nfs共享"><span class="nav-number">3.2.</span> <span class="nav-text">自动挂载nfs共享</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -777,7 +779,7 @@ var jiathis_config={
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
 
 
 

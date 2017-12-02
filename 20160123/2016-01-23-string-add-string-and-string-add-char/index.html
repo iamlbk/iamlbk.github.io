@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-Hans">
+<html class="theme-next gemini use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="BK的博客">
 <meta property="og:description" content="今天我们来考虑一个关于java中String的问题:  &amp;quot;abc&amp;quot; + &amp;#39;/&amp;#39;和 &amp;quot;abc&amp;quot; + &amp;quot;/&amp;quot;的区别. 通过这个例子, 我们可以顺便练习一下JDK工具中javap的用法.这个问题是以前在csdn论坛中看到的. 原问题是这样的:  把斜杠/当作字符或字符串有什么区别呢？一个是当作基本数据类型char，一个是对象St">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-29T13:30:54.172Z">
+<meta property="og:updated_time" content="2017-12-02T16:37:06.822Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java中String+String和String+char的区别">
 <meta name="twitter:description" content="今天我们来考虑一个关于java中String的问题:  &amp;quot;abc&amp;quot; + &amp;#39;/&amp;#39;和 &amp;quot;abc&amp;quot; + &amp;quot;/&amp;quot;的区别. 通过这个例子, 我们可以顺便练习一下JDK工具中javap的用法.这个问题是以前在csdn论坛中看到的. 原问题是这样的:  把斜杠/当作字符或字符串有什么区别呢？一个是当作基本数据类型char，一个是对象St">
@@ -102,7 +102,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Pisces',
+    scheme: 'Gemini',
     version: '5.1.3',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -395,15 +395,15 @@
       
 
       
-        <p>今天我们来考虑一个关于java中String的问题:  &quot;abc&quot; + &#39;/&#39;和 &quot;abc&quot; + &quot;/&quot;的区别. 通过这个例子, 我们可以顺便练习一下JDK工具中javap的用法.<br>这个问题是以前在csdn论坛中看到的. 原问题是这样的:</p>
+        <p>今天我们来考虑一个关于java中String的问题:  <code>&quot;abc&quot; + &#39;/&#39;</code>和 <code>&quot;abc&quot; + &quot;/&quot;</code>的区别. 通过这个例子, 我们可以顺便练习一下JDK工具中javap的用法.<br>这个问题是以前在csdn论坛中看到的. 原问题是这样的:</p>
 <blockquote>
 <p>把斜杠/当作字符或字符串有什么区别呢？<br><br>一个是当作基本数据类型char，一个是对象String。具体有什么区别呢？<br><br>当作字符效率会更高吗？<br><br><code>String str = &quot;abc&quot; + &#39;/&#39;;</code><br><br>和<br><br><code>String str = &quot;abc&quot; + &quot;/&quot;;</code><br></p>
 </blockquote>
 <a id="more"></a>
 <h2 id="编译器优化"><a href="#编译器优化" class="headerlink" title="编译器优化"></a>编译器优化</h2><p>首先大家应该知道, 上面那两句效果是一样的, 因为编译器会把上面那两句都优化成下面的样子:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">String str = <span class="string">"abc/"</span>;</div></pre></td></tr></table></figure></p>
-<p>我们可以通过javap证明这一点. 关于javap, 可以参考《<a href="http://www.csdn.net/article/2014-11-20/2822750-5-JDK-Tools-Every-Java-Developer-Should-Know?reload=1" title="每个Java开发者都应该知道的5个JDK工具" target="_blank" rel="external">每个Java开发者都应该知道的5个JDK工具</a>》.<br>我们首先创建一个类: <code>StringOne</code>, 在主方法中填入下面的代码(<a href="/downloads/code/2016/01/StringAddString.zip" title="下载源码">下载源码</a>):<br><figure class="highlight java"><figcaption><span>StringOne.java</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">String str1 = <span class="string">"abc"</span> + <span class="string">'/'</span>;</div><div class="line">String str2 = <span class="string">"abc"</span> + <span class="string">"/"</span>;</div><div class="line">System.out.println(str1 == str2);</div></pre></td></tr></table></figure></p>
+<p>我们可以通过javap证明这一点. 关于javap, 可以参考《<a href="http://www.csdn.net/article/2014-11-20/2822750-5-JDK-Tools-Every-Java-Developer-Should-Know?reload=1" target="_blank" rel="external">每个Java开发者都应该知道的5个JDK工具</a>》.<br>我们首先创建一个类: <code>StringOne</code>, 在主方法中填入下面的代码(<a href="/downloads/code/2016/01/StringAddString.zip" title="下载源码">下载源码</a>):<br><figure class="highlight java"><figcaption><span>StringOne.java</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">String str1 = <span class="string">"abc"</span> + <span class="string">'/'</span>;</div><div class="line">String str2 = <span class="string">"abc"</span> + <span class="string">"/"</span>;</div><div class="line">System.out.println(str1 == str2);</div></pre></td></tr></table></figure></p>
 <p>编译并运行, 输出结果为<code>true</code>. 接下来, 该我们的javap登场了, 在命令行中输入下面的命令:<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">javap -v -l StringOne.class &gt; StringOne.s</div></pre></td></tr></table></figure></p>
-<p>然后查看生成的StringOne.s文件. 就会发现其中有这么几行(注：javap生成文件中指令的含义可以参考这几篇博客:《<a href="http://www.cnblogs.com/chenqiangjsj/archive/2011/04/02/2003892.html" title="Java栈和局部变量操作（一）" target="_blank" rel="external">Java栈和局部变量操作（一）</a>》,《<a href="http://www.cnblogs.com/chenqiangjsj/archive/2011/04/03/2004231.html" title="Java栈和局部变量操作（二）" target="_blank" rel="external">Java栈和局部变量操作（二）</a>》,《<a href="http://blog.163.com/hfut_quyouhu/blog/static/7847183520127214559314/" title="java指令集" target="_blank" rel="external">java指令集</a>》):<br><figure class="highlight plain"><figcaption><span>StringOne.s</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&amp;#35;2 = String             #20            // abc/</div><div class="line">...</div><div class="line">&amp;#35;20 = Utf8               abc/</div><div class="line">...</div><div class="line">0: ldc           #2                  // String abc/</div><div class="line">2: astore_1</div><div class="line">3: ldc           #2                  // String abc/</div><div class="line">5: astore_2</div></pre></td></tr></table></figure></p>
+<p>然后查看生成的StringOne.s文件. 就会发现其中有这么几行(注：javap生成文件中指令的含义可以参考这几篇博客:《<a href="http://www.cnblogs.com/chenqiangjsj/archive/2011/04/02/2003892.html" title="Java栈和局部变量操作（一）" target="_blank" rel="external">Java栈和局部变量操作（一）</a>》,《<a href="http://www.cnblogs.com/chenqiangjsj/archive/2011/04/03/2004231.html" title="Java栈和局部变量操作（二）" target="_blank" rel="external">Java栈和局部变量操作（二）</a>]》,《<a href="http://blog.163.com/hfut_quyouhu/blog/static/7847183520127214559314/" title="java指令集" target="_blank" rel="external">java指令集</a>》):<br><figure class="highlight plain"><figcaption><span>StringOne.s</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&amp;#35;2 = String             #20            // abc/</div><div class="line">...</div><div class="line">&amp;#35;20 = Utf8               abc/</div><div class="line">...</div><div class="line">0: ldc           #2                  // String abc/</div><div class="line">2: astore_1</div><div class="line">3: ldc           #2                  // String abc/</div><div class="line">5: astore_2</div></pre></td></tr></table></figure></p>
 <p>说明<code>str1</code>和<code>str2</code>都引用字符串<code>&quot;abc\&quot;</code>.</p>
 <h2 id="使用javap分析差异"><a href="#使用javap分析差异" class="headerlink" title="使用javap分析差异"></a>使用javap分析差异</h2><p>现在我们换一个问法, 下面的代码中<code>stringAddString</code>和<code>stringAddChar</code>方法有什么区别?<br><figure class="highlight java"><figcaption><span>StringTwo</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">stringAddString</span><span class="params">(String str1, String str2)</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> str1 + str2;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">stringAddChar</span><span class="params">(String str, <span class="keyword">char</span> ch)</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> str + ch;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>这次再使用javap进行反编译, 生成文件的部分内容如下所示<br><figure class="highlight plain"><figcaption><span>StringTwo.s</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">public java.lang.String stringAddString(java.lang.String, java.lang.String);</div><div class="line">  descriptor: (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;</div><div class="line">  flags: ACC_PUBLIC</div><div class="line">  Code:</div><div class="line">    stack=2, locals=3, args_size=3</div><div class="line">       0: new           #2                  // class java/lang/StringBuilder</div><div class="line">       3: dup</div><div class="line">       4: invokespecial #3                  // Method java/lang/StringBuilder.&quot;&lt;  init&gt;&quot;:()V</div><div class="line">       7: aload_1</div><div class="line">       8: invokevirtual #4                  // Method java/lang/StringBuilder.  append:(Ljava/lang/String;)Ljava/lang/StringBuilder;</div><div class="line">      11: aload_2</div><div class="line">      12: invokevirtual #4                  // Method java/lang/StringBuilder.  append:(Ljava/lang/String;)Ljava/lang/StringBuilder;</div><div class="line">      15: invokevirtual #5                  // Method java/lang/StringBuilder.  toString:()Ljava/lang/String;</div><div class="line">      18: areturn</div><div class="line"></div><div class="line">public java.lang.String stringAddChar(java.lang.String, char);</div><div class="line">  descriptor: (Ljava/lang/String;C)Ljava/lang/String;</div><div class="line">  flags: ACC_PUBLIC</div><div class="line">  Code:</div><div class="line">    stack=2, locals=3, args_size=3</div><div class="line">       0: new           #2                  // class java/lang/StringBuilder</div><div class="line">       3: dup</div><div class="line">       4: invokespecial #3                  // Method java/lang/StringBuilder.&quot;&lt;init&gt;&quot;:()V</div><div class="line">       7: aload_1</div><div class="line">       8: invokevirtual #4                  // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;</div><div class="line">      11: iload_2</div><div class="line">      12: invokevirtual #6                  // Method java/lang/StringBuilder.append:(C)Ljava/lang/StringBuilder;</div><div class="line">      15: invokevirtual #5                  // Method java/lang/StringBuilder.toString:()Ljava/lang/String;</div><div class="line">      18: areturn</div></pre></td></tr></table></figure></p>
@@ -670,12 +670,6 @@ var jiathis_config={
                       <i class="fa fa-fw fa-github"></i>GitHub</a>
                 </span>
               
-                <span class="links-of-author-item">
-                  <a href="mailto:i.am.t.lbk@gmail.com" target="_blank" title="E-Mail">
-                    
-                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                </span>
-              
             
           </div>
 
@@ -786,7 +780,7 @@ var jiathis_config={
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
 
 
 

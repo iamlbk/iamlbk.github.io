@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-Hans">
+<html class="theme-next gemini use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -97,7 +97,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Pisces',
+    scheme: 'Gemini',
     version: '5.1.3',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -557,7 +557,7 @@
           <p>由于项目需要, 学习了一下tomcat配置https访问. 这里简单聊一下tomcat配置https访问的步骤. </p>
 <h2 id="生成证书"><a href="#生成证书" class="headerlink" title="生成证书"></a>生成证书</h2><p>在浏览器通过https访问网站时, 网站需要出示一个证书证明自己的身份. 因此在配置https访问之前, 我们需要生成一个密钥对. 我们为了省事, 只是简单的自己生成一个密钥对.</p>
 <p>生成密钥对的命令如下:</p>
-<figure class="highlight bash"><figcaption><span>生成密钥对</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">keytool -genkey -<span class="built_in">alias</span> apple -keyalg RSA -sigalg SHA256withRSA -keysize 1024 -validity 36500 -keystore ./keystore</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">keytool -genkey -<span class="built_in">alias</span> apple -keyalg RSA -sigalg SHA256withRSA -keysize 1024 -validity 36500 -keystore ./keystore</div></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/20160731/2016-07-31-tomcat-https/#more" rel="contents">
@@ -720,7 +720,7 @@
 <li><a href="https://java.net/projects/pdf-renderer/" title="PDFRenderer主页" target="_blank" rel="external">PDFRenderer</a>: 开源, 是Swinglabs的一个子项目. 效率较高, 但是无法处理中文.</li>
 <li><a href="http://pdfbox.apache.org/" title="pdfbox主页" target="_blank" rel="external">pdfbox</a>: apache的一个开源项目, 部分支持中文, 有些中文pdf可以正常转换, 有些则完全无法转换, 比较消耗内存.</li>
 <li><a href="https://www.idrsolutions.com/jpedal/" title="jpedal主页" target="_blank" rel="external">jpedal</a>: 据说有开源和商业版本, 但是我只找到了商业版本, 而且价格不菲, 所以并没有试过…</li>
-<li><a href="http://www.icesoft.org/java/home.jsf" title="ICEPDF主页" target="_blank" rel="external">ICEPDF</a>: 有开源和商业版本. 开源的也是部分支持中文, 商业版的并没有尝试过.</li>
+<li><a href="http://www.icesoft.org/java/home.jsf" title="ICEPDF主页" target="_blank" rel="external">ICEPDF</a>: 有开源和商业版本. 开源的也是部分支持中文, 商业版的没有尝试过.</li>
 </ul>
 <p>上面所说的四种工具, 只有pdfbox能支持项目中用到的中文pdf. 所以我使用的是pdfbox. 但是在解决过问题以后, 我使用其他的pdf文件测试时, 有些中文pdf文件转换过之后就只剩下乱码了. 如果需要完美的中文支持, 可能只有使用 jpedal 或者 ICEPDF 的商业版才行吧?</p>
           <!--noindex-->
@@ -1045,8 +1045,8 @@
           <p>junit是最常用的java单元测试框架之一. 目前junit5已经推出了5.0.0 Alpha版, 那么junit5相对于junit4有什么变化呢? 有什么新特性呢? 在这里我们聊一下junit5的变化和新特性.</p>
 <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h3 id="junit-5主页"><a href="#junit-5主页" class="headerlink" title="junit 5主页"></a>junit 5主页</h3><p>在介绍junit 5的新特性之前先给出几个链接. 有兴趣的朋友可以去看看:</p>
 <ul>
-<li>junit 5主页: <a href="https://github.com/junit-team/junit5" target="_blank" rel="external">https://github.com/junit-team/junit5</a></li>
-<li>junit 5用户指南: <a href="http://junit-team.github.io/junit5/" target="_blank" rel="external">http://junit-team.github.io/junit5/</a></li>
+<li>junit 5主页: <a href="http://junit.org/junit5/" target="_blank" rel="external">http://junit.org/junit5/</a></li>
+<li>junit 5用户指南: <a href="http://junit.org/junit5/docs/current/user-guide/" target="_blank" rel="external">http://junit.org/junit5/docs/current/user-guide/</a></li>
 <li>junit 5示例: <a href="https://github.com/junit-team/junit5-samples" target="_blank" rel="external">https://github.com/junit-team/junit5-samples</a></li>
 </ul>
           <!--noindex-->
@@ -1838,28 +1838,15 @@
 
       
         
-          
-            <p>由于最近在学习hadoop, 需要ssh免密码登录, 所以学习了一下ssh免密码安装. 在这里记录一下ssh免密码登录的方法和使用场合.</p>
-<h2 id="单机免密码登录"><a href="#单机免密码登录" class="headerlink" title="单机免密码登录"></a>单机免密码登录</h2><p>如果要ssh免密码登录本机, 比如是伪分布模式安装hadoop的话, 就需要ssh免密码登录本机. 那么我们可以使用如下的方式实现免密码登录:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -f ~/.ssh/id_rsa -P <span class="string">''</span>            <span class="comment"># 生成公私钥</span></div><div class="line">cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys     <span class="comment"># 共享授权密钥</span></div><div class="line">chmod 600 ~/.ssh/authorized_keys                    <span class="comment"># 修改文件权限</span></div><div class="line">``` </div><div class="line">&lt;!--more--&gt;</div><div class="line"><span class="comment">### 命令的解释</span></div><div class="line"></div><div class="line">第一行, 使用`ssh-keygen`生成公私钥.  `-t rsa`指定生成公私钥的算法为rsa. `-f ~/.ssh/id_rsa`指定生成的公私钥存放的文件路径, 其中id_rsa存放的是私钥, id_rsa.pub存放的是公钥. `-P <span class="string">''</span>`指定密码为空.</div><div class="line"></div><div class="line">第二行就不再解释了.</div><div class="line"></div><div class="line">第三行是因为如果authorized_keys文件的权限允许所有者之外的人修改, 那么这个文件中的内容并不起作用. 也就是所有组和其他人都不能拥有写权限, 个人建议权限设置成600. 由于初始时没有authorized_keys文件, 如果authorized_keys文件是由重定向生成的, 那么权限很可能大于644, 所以这里手工修改一下文件权限.</div><div class="line"></div><div class="line"><span class="comment">### 安全性</span></div><div class="line">在生成公私钥时不指定密码确实不是很安全. 例如, 如果有人登录到你的系统, 就可以免密码登录到所有经过授权的机器(这里是本机). 如果有人拿到了你的私钥, 那么也可以免密码登录到所有经过授权的机器. </div><div class="line"></div><div class="line">但是由于这里是登录本机, 基本上也就不存在安全问题了: 都已经登录到这台机器了, 再ssh登录这台机器也没有多大的意义; 同样, 如果都拿到私钥了, 那么应该也是登录过这台机子了. 而且还有一点是, 这很可能是在开发环境中, 那么对安全性的要求可能就没有那么高了, 而对便利性的要求可能会较高.</div><div class="line"></div><div class="line"><span class="comment">## 一台主机到多台主机免密码登录</span></div><div class="line">这里我们假设我们有四台机器, 主机名分别为: master, slave1, slave2, slave3. 我们的目的是从master免密码登录到slave1-3主机上.</div><div class="line"><span class="comment">### 生成公私钥</span></div><div class="line">如果还是用上面的方式生成公私钥. 如果有人登录了master主机, 那他就可以免密码登录到所有的slave主机上. 同样如果他拷贝走master上的私钥, 也可以免密码登录到所有的slave主机上. 所以这里建议设置密码. 生成公私钥的命令如下:</div><div class="line">```bash</div><div class="line">ssh-keygen -t rsa -f ~/.ssh/id_rsa</div><div class="line">``` </div><div class="line">当提示输入密码时, 输入一个密码即可. 下面我们把生成公私钥时输入的密码简称ssh密码.</div><div class="line"><span class="comment">### 共享公钥</span></div><div class="line">这里我们先使用`ssh-copy-id`完成共享公钥. 在master主机上执行如下命令:</div><div class="line">```bash</div><div class="line">ssh-copy-id -i ~/.ssh/id_rsa.pub slave1</div></pre></td></tr></table></figure></p>
-<p>其中<code>-i ~/.ssh/id_rsa.pub</code>指定我们需要共享的公钥文件. slave1为主机名, 也可以写成对应的ip. 执行这条命令时, 需要输入slave1主机上对应账号的密码.<br>之后我们就可以使用ssh密码登录slave1了. 为了免密码登录, 需要为每一个需要免密码登录的主机都执行一次这条命令.</p>
-<h3 id="配置记住密码"><a href="#配置记住密码" class="headerlink" title="配置记住密码"></a>配置记住密码</h3><p>为了记住密码, 我们需要在master主机中的~/.bash_profile中添加如下的命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">eval</span> `ssh-agent`</div><div class="line">ssh-add</div></pre></td></tr></table></figure></p>
-<p>其中第一行是启动ssh-agent服务. 该服务的作用范围为当前shell. 第二行是把专用密钥添加到ssh-agent的高速缓存中. 需要注意的是, 在执行<code>ssh-add</code>时需要输入ssh密码, 所以在开机输入用户名、密码登录后还会提示输入ssh密码. 如果觉得烦人, 可以在以后手动执行<code>ssh-add</code>.</p>
-<p>到这里我们就可以在<strong>这个shell</strong>中免密码登录slave1-3了. 可以使用<code>ssh slave1</code>登录slave1试试, 如果还需要密码, 说明配置有一些问题. 可以在仔细看看上面的步骤.</p>
-<p>如果需要多台主机到多台主机免密码登录, 那么只需要在多台主机间相互共享公钥就行了. 都配置好记住密码就行了.</p>
-<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>我们假设有两个shell: tty1, tty2. 其中tty1上在登录过以后输入了ssh密码. 而tty2上在登录过没有输入ssh密码. 那么在tty2上登录slave1-3时还是需要输入ssh密码的. 所以, 即使有人登录到master主机上, 不知道ssh密码也是不能免密码登录到slave1-3主机的. 同样的, 就算拷贝走私钥, 也没有用. 所以这样是安全的.</p>
-<h2 id="其他共享公钥的方式"><a href="#其他共享公钥的方式" class="headerlink" title="其他共享公钥的方式"></a>其他共享公钥的方式</h2><p>在上面我们是使用<code>ssh-copy-id</code>共享公钥的, 但是当主机很多时, 做好做对这件事将是一个很大的挑战; 当要修改密码, 重新生成公私钥时还得同步所有的公钥… </p>
-<p>为了更加方便, 我们可以这样做:</p>
-<p>在一台机器上创建好用户主目录, 然后生成公私钥, 然后将公钥添加到本机的授权文件中. 比如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</div></pre></td></tr></table></figure></p>
-<p>接着将该用户的主目录设置为nfs共享. 最后其他的主机都不使用自己的主目录, 而是挂载刚才共享的主目录. 那么就可以非常方便的共享公钥了. 具体步骤如下</p>
-<h3 id="创建nfs共享"><a href="#创建nfs共享" class="headerlink" title="创建nfs共享"></a>创建nfs共享</h3><p>在一(多)台机器上生成公私钥. 然后创建nfs共享. 修改<code>/etc/exports</code>文件. 添加如下内容:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/home/hadoop    192.168.45.0/24(rw,sync)</div></pre></td></tr></table></figure></p>
-<p>个人建议最少在两台机器上生成公私钥, 然后创建nfs共享. 这样万一其中一台由于网络等原因无法挂载时, 可以使用另外一台机器上的数据. 如果有多台机器, 那么需要注意同步数据.</p>
-<h3 id="自动挂载nfs共享"><a href="#自动挂载nfs共享" class="headerlink" title="自动挂载nfs共享"></a>自动挂载nfs共享</h3><p>这里应该是可以直接在<code>/etc/fstab</code>中添加挂载点的. 但是autofs更加适合这里的情况, 所以我们使用autofs.</p>
-<p>首先我们安装autofs. 然后修改<code>/etc/auto.master</code>, 添加如下内容:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/home/remoteuser    /ect/auto.remoteuser</div></pre></td></tr></table></figure></p>
-<p>其中<code>/home/remoteuser</code>是需要挂载的父级目录, <code>/ect/auto.remoteuser</code>是具体配置文件的位置.<br>接下来, 我们需要编辑<code>/ect/auto.remoteuser</code>(这个文件原本没有, 需要手工创建). 添加如下内容:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hadoop  -fstype=nfs,rw,soft,intr    nfsserver1,nfsserver2:/home/hadoop</div></pre></td></tr></table></figure></p>
-<p>其中<code>hadoop</code>是挂载点的最后一级目录, <code>/home/remoteuser/hadoop</code>就是最终的挂载点.<br><code>-fstype=nfs,rw,soft,intr</code>是相应的选项.<br><code>nfsserver1,nfsserver2:/home/hadoop</code>中的<code>nfsserver1</code>和<code>nfsserver2</code>是nfs共享的主机名,<code>/home/hadoop</code>是共享的目录.更加灵活的配置方式可以参见<code>man 5 autofs</code></p>
-<p>之后再修改用户的主目录为<code>/home/remoteuser/hadoop</code>. 接下来, 在任意的主机上使用<code>ssh-add</code>添加过密码后, 就可以在该主机该shell上免密码登录所有的主机了.</p>
-
-          
+          <p>由于最近在学习hadoop, 需要ssh免密码登录, 所以学习了一下ssh免密码安装. 在这里记录一下ssh免密码登录的方法和使用场合.</p>
+<h2 id="单机免密码登录"><a href="#单机免密码登录" class="headerlink" title="单机免密码登录"></a>单机免密码登录</h2><p>如果要ssh免密码登录本机, 比如是伪分布模式安装hadoop的话, 就需要ssh免密码登录本机. 那么我们可以使用如下的方式实现免密码登录:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -f ~/.ssh/id_rsa -P <span class="string">''</span>            <span class="comment"># 生成公私钥</span></div><div class="line">cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys     <span class="comment"># 共享授权密钥</span></div><div class="line">chmod 600 ~/.ssh/authorized_keys                    <span class="comment"># 修改文件权限</span></div></pre></td></tr></table></figure></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/20160210/2016-02-10-ssh-no-password-login/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1991,12 +1978,6 @@
                       <i class="fa fa-fw fa-github"></i>GitHub</a>
                 </span>
               
-                <span class="links-of-author-item">
-                  <a href="mailto:i.am.t.lbk@gmail.com" target="_blank" title="E-Mail">
-                    
-                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                </span>
-              
             
           </div>
 
@@ -2091,7 +2072,7 @@
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
 
 
 

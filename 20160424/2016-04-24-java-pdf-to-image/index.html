@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-Hans">
+<html class="theme-next gemini use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="BK的博客">
 <meta property="og:description" content="由于项目需要将pdf转成图片, 所以学习了使用java将pdf文件转成图片的方法. 这里记录下方法, 方便以后查阅. 目前pdf转图片比较常用的类库有如下几个:  PDFRenderer: 开源, 是Swinglabs的一个子项目. 效率较高, 但是无法处理中文. pdfbox: apache的一个开源项目, 部分支持中文, 有些中文pdf可以正常转换, 有些则完全无法转换, 比较消耗内存. jp">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-29T13:31:34.498Z">
+<meta property="og:updated_time" content="2017-12-02T17:12:17.953Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pdf转图片(java语言实现)">
 <meta name="twitter:description" content="由于项目需要将pdf转成图片, 所以学习了使用java将pdf文件转成图片的方法. 这里记录下方法, 方便以后查阅. 目前pdf转图片比较常用的类库有如下几个:  PDFRenderer: 开源, 是Swinglabs的一个子项目. 效率较高, 但是无法处理中文. pdfbox: apache的一个开源项目, 部分支持中文, 有些中文pdf可以正常转换, 有些则完全无法转换, 比较消耗内存. jp">
@@ -102,7 +102,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Pisces',
+    scheme: 'Gemini',
     version: '5.1.3',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -401,7 +401,7 @@
 <li><a href="https://java.net/projects/pdf-renderer/" title="PDFRenderer主页" target="_blank" rel="external">PDFRenderer</a>: 开源, 是Swinglabs的一个子项目. 效率较高, 但是无法处理中文.</li>
 <li><a href="http://pdfbox.apache.org/" title="pdfbox主页" target="_blank" rel="external">pdfbox</a>: apache的一个开源项目, 部分支持中文, 有些中文pdf可以正常转换, 有些则完全无法转换, 比较消耗内存.</li>
 <li><a href="https://www.idrsolutions.com/jpedal/" title="jpedal主页" target="_blank" rel="external">jpedal</a>: 据说有开源和商业版本, 但是我只找到了商业版本, 而且价格不菲, 所以并没有试过…</li>
-<li><a href="http://www.icesoft.org/java/home.jsf" title="ICEPDF主页" target="_blank" rel="external">ICEPDF</a>: 有开源和商业版本. 开源的也是部分支持中文, 商业版的并没有尝试过.</li>
+<li><a href="http://www.icesoft.org/java/home.jsf" title="ICEPDF主页" target="_blank" rel="external">ICEPDF</a>: 有开源和商业版本. 开源的也是部分支持中文, 商业版的没有尝试过.</li>
 </ul>
 <p>上面所说的四种工具, 只有pdfbox能支持项目中用到的中文pdf. 所以我使用的是pdfbox. 但是在解决过问题以后, 我使用其他的pdf文件测试时, 有些中文pdf文件转换过之后就只剩下乱码了. 如果需要完美的中文支持, 可能只有使用 jpedal 或者 ICEPDF 的商业版才行吧?</p>
 <a id="more"></a>
@@ -409,13 +409,13 @@
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.pdfbox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pdfbox<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.8.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>也可以直接从pdfbox的下载页面下载: <a href="http://pdfbox.apache.org/download.cgi" target="_blank" rel="external">http://pdfbox.apache.org/download.cgi</a></p>
 <h2 id="将pdf文件转成图片文件"><a href="#将pdf文件转成图片文件" class="headerlink" title="将pdf文件转成图片文件"></a>将pdf文件转成图片文件</h2><p>如果只是需要将pdf文件转成图片文件还是比较简单的, 只需要简单的6,7行代码就行了:</p>
-<figure class="highlight java"><figcaption><span>PDF2Image</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String BASE_PATH = <span class="string">"F:\\java\\"</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    File file = <span class="keyword">new</span> File(BASE_PATH + <span class="string">"test.pdf"</span>);</div><div class="line">    PDDocument doc = PDDocument.load(file);</div><div class="line">    PDFImageWriter imageWriter = <span class="keyword">new</span> PDFImageWriter();</div><div class="line"></div><div class="line">    <span class="keyword">int</span> pageCount = doc.getNumberOfPages();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= pageCount; i++) &#123;</div><div class="line">        <span class="comment">// 将第 i 到 i 页(也就是第i页)转换成图片, 并存到文件中</span></div><div class="line">        imageWriter.writeImage(doc, <span class="string">"jpg"</span>, <span class="keyword">null</span>, i, i, BASE_PATH + file.getName());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String BASE_PATH = <span class="string">"F:\\java\\"</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    File file = <span class="keyword">new</span> File(BASE_PATH + <span class="string">"test.pdf"</span>);</div><div class="line">    PDDocument doc = PDDocument.load(file);</div><div class="line">    PDFImageWriter imageWriter = <span class="keyword">new</span> PDFImageWriter();</div><div class="line"></div><div class="line">    <span class="keyword">int</span> pageCount = doc.getNumberOfPages();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= pageCount; i++) &#123;</div><div class="line">        <span class="comment">// 将第 i 到 i 页(也就是第i页)转换成图片, 并存到文件中</span></div><div class="line">        imageWriter.writeImage(doc, <span class="string">"jpg"</span>, <span class="keyword">null</span>, i, i, BASE_PATH + file.getName());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>过程很简单, 加载pdf文件. 创建一个输出流. 遍历pdf文件的每一页, 输出到图片文件中即可.</p>
 <p>其中<code>PDDocument.load</code>有多个重载方法, 最简单的四个重载方法分别接受<code>String</code>类型的参数, <code>File</code>类型的参数; <code>URL</code>类型的参数, 或者<code>InputStream</code>类型的参数.</p>
 <p>而在输出时的<code>imageWrite.writeImage</code>方法的第二个参数指定图片类型, 这个参数也决定了生成图片文件的缩略名.</p>
 <h2 id="将pdf转换成图片-并输出到内存的缓存中"><a href="#将pdf转换成图片-并输出到内存的缓存中" class="headerlink" title="将pdf转换成图片, 并输出到内存的缓存中"></a>将pdf转换成图片, 并输出到内存的缓存中</h2><p>我们可能需要将pdf转换成图片, 并存到内存中进行下一步处理(比如发送给浏览器客户端). 我们当然可以先存到文件中, 然后再读进内存, 但是这样效率太低, 尤其需要读写硬盘. 既然pdfbox有输出到内存缓冲区的功能. 我们当然不能浪费.</p>
 <p>当然为了看到效果, 下面的示例程序还是将图片保存到文件中.</p>
-<figure class="highlight java"><figcaption><span>PDF2BufferedImage</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String BASE_PATH = <span class="string">"F:\\java\\"</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    File file = <span class="keyword">new</span> File(BASE_PATH + <span class="string">"test.pdf"</span>);</div><div class="line">    PDDocument doc = PDDocument.load(file);</div><div class="line">    List&lt;?&gt; pages = doc.getDocumentCatalog().getAllPages();</div><div class="line">    </div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pages.size(); i++) &#123;</div><div class="line">        PDPage page = (PDPage) pages.get(i);   <span class="comment">// 获取第i页</span></div><div class="line">        BufferedImage image = page.convertToImage();</div><div class="line">        </div><div class="line">        <span class="comment">// 输出到文件中</span></div><div class="line">        String outPath = BASE_PATH + file.getName() + i + <span class="string">".gif"</span>;</div><div class="line">        <span class="keyword">try</span> (FileOutputStream out = <span class="keyword">new</span> FileOutputStream(outPath)) &#123;</div><div class="line">            ImageIO.write(image, <span class="string">"gif"</span>, out);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String BASE_PATH = <span class="string">"F:\\java\\"</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    File file = <span class="keyword">new</span> File(BASE_PATH + <span class="string">"test.pdf"</span>);</div><div class="line">    PDDocument doc = PDDocument.load(file);</div><div class="line">    List&lt;?&gt; pages = doc.getDocumentCatalog().getAllPages();</div><div class="line">    </div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pages.size(); i++) &#123;</div><div class="line">        PDPage page = (PDPage) pages.get(i);   <span class="comment">// 获取第i页</span></div><div class="line">        BufferedImage image = page.convertToImage();</div><div class="line">        </div><div class="line">        <span class="comment">// 输出到文件中</span></div><div class="line">        String outPath = BASE_PATH + file.getName() + i + <span class="string">".gif"</span>;</div><div class="line">        <span class="keyword">try</span> (FileOutputStream out = <span class="keyword">new</span> FileOutputStream(outPath)) &#123;</div><div class="line">            ImageIO.write(image, <span class="string">"gif"</span>, out);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>非常简单吧! 今天就说这么多吧. 需要源码的朋友可以从这里<a href="/downloads/code/2016/04/pdf2image.zip" title="下载代码">下载</a>源码.  如果各位朋友还有什么问题, 可以在下方的留言区留言, 我们相互讨论, 共同进步. </p>
 
       
@@ -666,12 +666,6 @@ var jiathis_config={
                       <i class="fa fa-fw fa-github"></i>GitHub</a>
                 </span>
               
-                <span class="links-of-author-item">
-                  <a href="mailto:i.am.t.lbk@gmail.com" target="_blank" title="E-Mail">
-                    
-                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                </span>
-              
             
           </div>
 
@@ -782,7 +776,7 @@ var jiathis_config={
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
 
 
 
