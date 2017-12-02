@@ -77,7 +77,12 @@ theme: next
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+- type: git
+  repo: git@github.com:iamlbk/iamlbk.github.io.git
+  branch: master
+- type: git
+  repo: git@gitee.com:lbk/lbk.git
+  branch: master
 
 algolia:
   applicationID: 'B29BFOGDU0'
