@@ -19,6 +19,8 @@
     #}{{ totalcount(site, '0,0.0a') }}{#
   #}</span>
   {% endif %}
+
+  <a href="http://www.miitbeian.gov.cn" target="_blank" rel="noopener norefferrer" >豫ICP备17045145号</a>
 </div>
 
 {% if theme.footer.powered %}

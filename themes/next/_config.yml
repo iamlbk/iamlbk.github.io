@@ -91,7 +91,7 @@ menu:
   #schedule: /schedule/ || calendar
   #sitemap: /sitemap.xml || sitemap
   #commonweal: /404/ || heartbeat
-  about: /about/ || user
+  # about: /about/ || user
 
 # Enable/Disable menu icons.
 menu_icons:
@@ -118,9 +118,9 @@ scheme: Pisces
 # Key is the link label showing to end users.
 # Value before `||` delimeter is the target permalink.
 # Value after `||` delimeter is the name of FontAwesome icon. If icon (with or without delimeter) is not specified, globe icon will be loaded.
-#social:
-  #GitHub: https://github.com/yourname || github
-  #E-Mail: mailto:yourname@gmail.com || envelope
+social:
+  GitHub: https://github.com/iamlbk || github
+  E-Mail: mailto:i.am.t.lbk@gmail.com || envelope
   #Google: https://plus.google.com/yourname || google
   #Twitter: https://twitter.com/yourname || twitter
   #FB Page: https://www.facebook.com/yourname || facebook
@@ -243,7 +243,7 @@ post_wordcount:
   #description: ex. subscribe to my blog by scanning my public wechat account
 
 # Reward
-reward_comment: 写的不错 赏一个!
+reward_comment: 坚持原创技术分享，您的支持将鼓励我继续创作！
 wechatpay: /images/reward/wechat.png
 alipay: /images/reward/alipay.jpg
 #bitcoin: /images/bitcoin.png
@@ -527,9 +527,9 @@ rating:
 # Show number of visitors to each article.
 # You can visit https://leancloud.cn get AppID and AppKey.
 leancloud_visitors:
-  enable: false
-  app_id: #<app_id>
-  app_key: #<app_key>
+  enable: true
+  app_id: zfThM0TOskYvTLdXvRQwjHEs-gzGzoHsz
+  app_key: ULQ1UuYWWSXMbllP1V0Ag3s7
 
 # Show PV/UV of the website/page with busuanzi.
 # Get more information on http://ibruce.info/2015/04/04/busuanzi/
