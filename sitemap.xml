@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.iamlbk.com/404/index.html</loc>
+    
+    <lastmod>2023-04-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.iamlbk.com/20160424/2016-04-24-java-pdf-to-image/</loc>
     
     <lastmod>2017-12-02</lastmod>
@@ -165,15 +174,6 @@
   
   <url>
     <loc>http://blog.iamlbk.com/categories/index.html</loc>
-    
-    <lastmod>2017-10-29</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.iamlbk.com/404.html</loc>
     
     <lastmod>2017-10-29</lastmod>
     
