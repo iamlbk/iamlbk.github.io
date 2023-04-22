@@ -1,4 +1,4 @@
-http://blog.iamlbk.com/404/index.html
+http://blog.iamlbk.com/404.html
 http://blog.iamlbk.com/20160424/2016-04-24-java-pdf-to-image/
 http://blog.iamlbk.com/20160731/2016-07-31-tomcat-https/
 http://blog.iamlbk.com/20160402/2016-04-02-java-simple-cache/
