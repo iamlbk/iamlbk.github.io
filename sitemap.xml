@@ -284,6 +284,13 @@
   </url>
   
   <url>
+    <loc>http://blog.iamlbk.com/tags/%E7%BC%93%E5%AD%98/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.iamlbk.com/tags/pdf2image/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>weekly</changefreq>
@@ -292,13 +299,6 @@
   
   <url>
     <loc>http://blog.iamlbk.com/tags/pdfbox/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.iamlbk.com/tags/%E7%BC%93%E5%AD%98/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
