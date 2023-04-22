@@ -421,9 +421,9 @@ gitment:
 # This plugin is more useful in China, make sure you known how to use it.
 # And you can find the use guide at official webiste: http://www.jiathis.com/.
 # Warning: JiaThis does not support https.
-jiathis: ture
+jiathis: false
   ##uid: Get this uid from http://www.jiathis.com/
-add_this_id: 2080296
+# add_this_id: 2080296
 
 # Share
 #duoshuo_share: true
