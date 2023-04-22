@@ -1,37 +1,1074 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="vxko_SNsLo1Ov0YcfVGTnHlFtBsyn4UgL3HxOYOmoSg" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-bk.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-bk.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-bk.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo-bk.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ssh, ssh免密码登录, hadoop安装ssh免密码登录" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="BK的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="由于最近在学习hadoop, 需要ssh免密码登录, 所以学习了一下ssh免密码安装. 在这里记录一下ssh免密码登录的方法和使用场合. 单机免密码登录如果要ssh免密码登录本机, 比如是伪分布模式安装hadoop的话, 就需要ssh免密码登录本机. 那么我们可以使用如下的方式实现免密码登录: 123ssh-keygen -t rsa -f ~&#x2F;.ssh&#x2F;id_rsa -P &amp;#x27;&amp;#x27">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ssh免密码登录">
+<meta property="og:url" content="http://blog.iamlbk.com/20160210/2016-02-10-ssh-no-password-login/index.html">
+<meta property="og:site_name" content="BK的博客">
+<meta property="og:description" content="由于最近在学习hadoop, 需要ssh免密码登录, 所以学习了一下ssh免密码安装. 在这里记录一下ssh免密码登录的方法和使用场合. 单机免密码登录如果要ssh免密码登录本机, 比如是伪分布模式安装hadoop的话, 就需要ssh免密码登录本机. 那么我们可以使用如下的方式实现免密码登录: 123ssh-keygen -t rsa -f ~&#x2F;.ssh&#x2F;id_rsa -P &amp;#x27;&amp;#x27">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-02-10T05:00:57.000Z">
+<meta property="article:modified_time" content="2017-12-02T16:45:47.406Z">
+<meta property="article:author" content="LBK">
+<meta property="article:tag" content="ssh">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"搜索博客","hits_empty":"未发现与「${query}」相关的内容","hits_stats":"${hits}条相关条目，使用了${time}毫秒"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.iamlbk.com/20160210/2016-02-10-ssh-no-password-login/"/>
+
+
+
+
+
+  <title>ssh免密码登录 | BK的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?cc3a9cc5c3c02e07533ae2a0d33e05d2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">BK的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录成长的轨迹</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.iamlbk.com/20160210/2016-02-10-ssh-no-password-login/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BK的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ssh免密码登录</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-10T13:00:57+08:00">
+                2016-02-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/20160210/2016-02-10-ssh-no-password-login/" class="leancloud_visitors" data-flag-title="ssh免密码登录">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>由于最近在学习hadoop, 需要ssh免密码登录, 所以学习了一下ssh免密码安装. 在这里记录一下ssh免密码登录的方法和使用场合.</p>
+<h2 id="单机免密码登录"><a href="#单机免密码登录" class="headerlink" title="单机免密码登录"></a>单机免密码登录</h2><p>如果要ssh免密码登录本机, 比如是伪分布模式安装hadoop的话, 就需要ssh免密码登录本机. 那么我们可以使用如下的方式实现免密码登录:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -f ~/.ssh/id_rsa -P <span class="string">&#x27;&#x27;</span>            <span class="comment"># 生成公私钥</span></span><br><span class="line"><span class="built_in">cat</span> ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys     <span class="comment"># 共享授权密钥</span></span><br><span class="line"><span class="built_in">chmod</span> 600 ~/.ssh/authorized_keys                    <span class="comment"># 修改文件权限</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+
+<h3 id="命令的解释"><a href="#命令的解释" class="headerlink" title="命令的解释"></a>命令的解释</h3><p>第一行, 使用<code>ssh-keygen</code>生成公私钥.  <code>-t rsa</code>指定生成公私钥的算法为rsa. <code>-f ~/.ssh/id_rsa</code>指定生成的公私钥存放的文件路径, 其中id_rsa存放的是私钥, id_rsa.pub存放的是公钥. <code>-P &#39;&#39;</code>指定密码为空.</p>
+<p>第二行就不再解释了.</p>
+<p>第三行是因为如果authorized_keys文件的权限允许所有者之外的人修改, 那么这个文件中的内容并不起作用. 也就是所有组和其他人都不能拥有写权限, 个人建议权限设置成600. 由于初始时没有authorized_keys文件, 如果authorized_keys文件是由重定向生成的, 那么权限很可能大于644, 所以这里手工修改一下文件权限.</p>
+<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>在生成公私钥时不指定密码确实不是很安全. 例如, 如果有人登录到你的系统, 就可以免密码登录到所有经过授权的机器(这里是本机). 如果有人拿到了你的私钥, 那么也可以免密码登录到所有经过授权的机器. </p>
+<p>但是由于这里是登录本机, 基本上也就不存在安全问题了: 都已经登录到这台机器了, 再ssh登录这台机器也没有多大的意义; 同样, 如果都拿到私钥了, 那么应该也是登录过这台机子了. 而且还有一点是, 这很可能是在开发环境中, 那么对安全性的要求可能就没有那么高了, 而对便利性的要求可能会较高.</p>
+<h2 id="一台主机到多台主机免密码登录"><a href="#一台主机到多台主机免密码登录" class="headerlink" title="一台主机到多台主机免密码登录"></a>一台主机到多台主机免密码登录</h2><p>这里我们假设我们有四台机器, 主机名分别为: master, slave1, slave2, slave3. 我们的目的是从master免密码登录到slave1-3主机上.</p>
+<h3 id="生成公私钥"><a href="#生成公私钥" class="headerlink" title="生成公私钥"></a>生成公私钥</h3><p>如果还是用上面的方式生成公私钥. 如果有人登录了master主机, 那他就可以免密码登录到所有的slave主机上. 同样如果他拷贝走master上的私钥, 也可以免密码登录到所有的slave主机上. 所以这里建议设置密码. 生成公私钥的命令如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -f ~/.ssh/id_rsa</span><br></pre></td></tr></table></figure>
+<p>当提示输入密码时, 输入一个密码即可. 下面我们把生成公私钥时输入的密码简称ssh密码.</p>
+<h3 id="共享公钥"><a href="#共享公钥" class="headerlink" title="共享公钥"></a>共享公钥</h3><p>这里我们先使用<code>ssh-copy-id</code>完成共享公钥. 在master主机上执行如下命令:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id -i ~/.ssh/id_rsa.pub slave1</span><br></pre></td></tr></table></figure>
+<p>其中<code>-i ~/.ssh/id_rsa.pub</code>指定我们需要共享的公钥文件. slave1为主机名, 也可以写成对应的ip. 执行这条命令时, 需要输入slave1主机上对应账号的密码.<br>之后我们就可以使用ssh密码登录slave1了. 为了免密码登录, 需要为每一个需要免密码登录的主机都执行一次这条命令.</p>
+<h3 id="配置记住密码"><a href="#配置记住密码" class="headerlink" title="配置记住密码"></a>配置记住密码</h3><p>为了记住密码, 我们需要在master主机中的~&#x2F;.bash_profile中添加如下的命令:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span> `ssh-agent`</span><br><span class="line">ssh-add</span><br></pre></td></tr></table></figure>
+<p>其中第一行是启动ssh-agent服务. 该服务的作用范围为当前shell. 第二行是把专用密钥添加到ssh-agent的高速缓存中. 需要注意的是, 在执行<code>ssh-add</code>时需要输入ssh密码, 所以在开机输入用户名、密码登录后还会提示输入ssh密码. 如果觉得烦人, 可以在以后手动执行<code>ssh-add</code>.</p>
+<p>到这里我们就可以在<strong>这个shell</strong>中免密码登录slave1-3了. 可以使用<code>ssh slave1</code>登录slave1试试, 如果还需要密码, 说明配置有一些问题. 可以在仔细看看上面的步骤.</p>
+<p>如果需要多台主机到多台主机免密码登录, 那么只需要在多台主机间相互共享公钥就行了. 都配置好记住密码就行了.</p>
+<h3 id="安全性-1"><a href="#安全性-1" class="headerlink" title="安全性"></a>安全性</h3><p>我们假设有两个shell: tty1, tty2. 其中tty1上在登录过以后输入了ssh密码. 而tty2上在登录过没有输入ssh密码. 那么在tty2上登录slave1-3时还是需要输入ssh密码的. 所以, 即使有人登录到master主机上, 不知道ssh密码也是不能免密码登录到slave1-3主机的. 同样的, 就算拷贝走私钥, 也没有用. 所以这样是安全的.</p>
+<h2 id="其他共享公钥的方式"><a href="#其他共享公钥的方式" class="headerlink" title="其他共享公钥的方式"></a>其他共享公钥的方式</h2><p>在上面我们是使用<code>ssh-copy-id</code>共享公钥的, 但是当主机很多时, 做好做对这件事将是一个很大的挑战; 当要修改密码, 重新生成公私钥时还得同步所有的公钥… </p>
+<p>为了更加方便, 我们可以这样做:</p>
+<p>在一台机器上创建好用户主目录, 然后生成公私钥, 然后将公钥添加到本机的授权文件中. 比如:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+<p>接着将该用户的主目录设置为nfs共享. 最后其他的主机都不使用自己的主目录, 而是挂载刚才共享的主目录. 那么就可以非常方便的共享公钥了. 具体步骤如下</p>
+<h3 id="创建nfs共享"><a href="#创建nfs共享" class="headerlink" title="创建nfs共享"></a>创建nfs共享</h3><p>在一(多)台机器上生成公私钥. 然后创建nfs共享. 修改<code>/etc/exports</code>文件. 添加如下内容:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/hadoop    192.168.45.0/24(rw,sync)</span><br></pre></td></tr></table></figure>
+<p>个人建议最少在两台机器上生成公私钥, 然后创建nfs共享. 这样万一其中一台由于网络等原因无法挂载时, 可以使用另外一台机器上的数据. 如果有多台机器, 那么需要注意同步数据.</p>
+<h3 id="自动挂载nfs共享"><a href="#自动挂载nfs共享" class="headerlink" title="自动挂载nfs共享"></a>自动挂载nfs共享</h3><p>这里应该是可以直接在<code>/etc/fstab</code>中添加挂载点的. 但是autofs更加适合这里的情况, 所以我们使用autofs.</p>
+<p>首先我们安装autofs. 然后修改<code>/etc/auto.master</code>, 添加如下内容:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/remoteuser    /ect/auto.remoteuser</span><br></pre></td></tr></table></figure>
+<p>其中<code>/home/remoteuser</code>是需要挂载的父级目录, <code>/ect/auto.remoteuser</code>是具体配置文件的位置.<br>接下来, 我们需要编辑<code>/ect/auto.remoteuser</code>(这个文件原本没有, 需要手工创建). 添加如下内容:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop  -fstype=nfs,rw,soft,intr    nfsserver1,nfsserver2:/home/hadoop</span><br></pre></td></tr></table></figure>
+<p>其中<code>hadoop</code>是挂载点的最后一级目录, <code>/home/remoteuser/hadoop</code>就是最终的挂载点.<br><code>-fstype=nfs,rw,soft,intr</code>是相应的选项.<br><code>nfsserver1,nfsserver2:/home/hadoop</code>中的<code>nfsserver1</code>和<code>nfsserver2</code>是nfs共享的主机名,<code>/home/hadoop</code>是共享的目录.更加灵活的配置方式可以参见<code>man 5 autofs</code></p>
+<p>之后再修改用户的主目录为<code>/home/remoteuser/hadoop</code>. 接下来, 在任意的主机上使用<code>ssh-add</code>添加过密码后, 就可以在该主机该shell上免密码登录所有的主机了.</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/reward/wechat.png" alt=" 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/reward/alipay.jpg" alt=" 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    LBK
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://blog.iamlbk.com/20160210/2016-02-10-ssh-no-password-login/" title="ssh免密码登录">http://blog.iamlbk.com/20160210/2016-02-10-ssh-no-password-login/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ssh/" rel="tag"># ssh</a>
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/20160129/2016-01-29-get-collection-by-sum/" rel="next" title="从N个数中取M个和为指定值的数">
+                <i class="fa fa-chevron-left"></i> 从N个数中取M个和为指定值的数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20160219/2016-02-19-sms-java-code-1/" rel="prev" title="发送短信(一):同步/异步发送短信">
+                发送短信(一):同步/异步发送短信 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTU3OS84MTQz"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/iamlbk" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://javapapers.com/" title="javapapers" target="_blank">javapapers</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.importnew.com/" title="ImportNew" target="_blank">ImportNew</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.oschina.net/" title="开源中国" target="_blank">开源中国</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.jobbole.com/" title="伯乐在线" target="_blank">伯乐在线</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.tuicool.com/" title="推酷" target="_blank">推酷</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.csdn.net/" title="CSDN" target="_blank">CSDN</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ruanyifeng.com/home.html" title="阮一峰的个人网站" target="_blank">阮一峰的个人网站</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://coolshell.cn/" title="酷壳" target="_blank">酷壳</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.techug.com/" title="程序师" target="_blank">程序师</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E6%9C%BA%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">单机免密码登录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E7%9A%84%E8%A7%A3%E9%87%8A"><span class="nav-number">1.1.</span> <span class="nav-text">命令的解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">1.2.</span> <span class="nav-text">安全性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E5%8F%B0%E4%B8%BB%E6%9C%BA%E5%88%B0%E5%A4%9A%E5%8F%B0%E4%B8%BB%E6%9C%BA%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">一台主机到多台主机免密码登录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%85%AC%E7%A7%81%E9%92%A5"><span class="nav-number">2.1.</span> <span class="nav-text">生成公私钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E5%85%AC%E9%92%A5"><span class="nav-number">2.2.</span> <span class="nav-text">共享公钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%AE%B0%E4%BD%8F%E5%AF%86%E7%A0%81"><span class="nav-number">2.3.</span> <span class="nav-text">配置记住密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7-1"><span class="nav-number">2.4.</span> <span class="nav-text">安全性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%85%B1%E4%BA%AB%E5%85%AC%E9%92%A5%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">其他共享公钥的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAnfs%E5%85%B1%E4%BA%AB"><span class="nav-number">3.1.</span> <span class="nav-text">创建nfs共享</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BDnfs%E5%85%B1%E4%BA%AB"><span class="nav-number">3.2.</span> <span class="nav-text">自动挂载nfs共享</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LBK</span>
+
+  
+
+  <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener norefferrer" >豫ICP备17045145号</a>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("zfThM0TOskYvTLdXvRQwjHEs-gzGzoHsz", "ULQ1UuYWWSXMbllP1V0Ag3s7");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

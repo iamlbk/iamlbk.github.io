@@ -1,37 +1,1096 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="vxko_SNsLo1Ov0YcfVGTnHlFtBsyn4UgL3HxOYOmoSg" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-bk.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-bk.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-bk.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo-bk.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="octopress, github page, octopress tag cloud, octopress标签, 定制octopress" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="BK的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="octopress默认只有分类,没有标签.这让习惯使用三四个分类, 无数个标签管理博客的我很不习惯.于是在网上找为octopress添加标签的方式. 这篇博客的部分内容参考:《为octopress添加tag cloud》.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为octopress添加标签">
+<meta property="og:url" content="http://blog.iamlbk.com/20160108/2016-01-08-octopress-add-tag-cloud/index.html">
+<meta property="og:site_name" content="BK的博客">
+<meta property="og:description" content="octopress默认只有分类,没有标签.这让习惯使用三四个分类, 无数个标签管理博客的我很不习惯.于是在网上找为octopress添加标签的方式. 这篇博客的部分内容参考:《为octopress添加tag cloud》.">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.iamlbk.com/images/2016/01/archives-list-tags.png">
+<meta property="og:image" content="http://blog.iamlbk.com/images/2016/01/archives-tags.png">
+<meta property="article:published_time" content="2016-01-08T05:33:03.000Z">
+<meta property="article:modified_time" content="2017-12-02T16:23:20.655Z">
+<meta property="article:author" content="LBK">
+<meta property="article:tag" content="octopress">
+<meta property="article:tag" content="github page">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.iamlbk.com/images/2016/01/archives-list-tags.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"搜索博客","hits_empty":"未发现与「${query}」相关的内容","hits_stats":"${hits}条相关条目，使用了${time}毫秒"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.iamlbk.com/20160108/2016-01-08-octopress-add-tag-cloud/"/>
+
+
+
+
+
+  <title>为octopress添加标签 | BK的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?cc3a9cc5c3c02e07533ae2a0d33e05d2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">BK的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录成长的轨迹</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.iamlbk.com/20160108/2016-01-08-octopress-add-tag-cloud/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BK的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">为octopress添加标签</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-08T13:33:03+08:00">
+                2016-01-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/20160108/2016-01-08-octopress-add-tag-cloud/" class="leancloud_visitors" data-flag-title="为octopress添加标签">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>octopress默认只有分类,没有标签.这让习惯使用三四个分类, 无数个标签管理博客的我很不习惯.<br>于是在网上找为octopress添加标签的方式. 这篇博客的部分内容参考:《<a target="_blank" rel="noopener" href="http://codemacro.com/2012/07/18/add-tag-to-octopress">为octopress添加tag cloud</a>》.</p>
+<span id="more"></span>
+
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>首先, 下载需要的插件: <a target="_blank" rel="noopener" href="https://github.com/robbyedwards/octopress-tag-pages">octopress-tag-pages</a>和<a target="_blank" rel="noopener" href="https://github.com/robbyedwards/octopress-tag-cloud">octopress-tag-cloud</a>. 使用git clone或者直接下载压缩包都行.</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>安装其实很简单, 只需要将下面几个文件复制到octopress中相应的目录中即可:</p>
+<p>octopress-tag-pages中的</p>
+<ul>
+<li>plugins&#x2F;tag_generator.rb</li>
+<li>source&#x2F;_layouts&#x2F;tag_index.html</li>
+<li>source&#x2F;_includes&#x2F;custom&#x2F;tag_feed.xml</li>
+</ul>
+<p>octopress-tag-cloud中的</p>
+<ul>
+<li>plugins&#x2F;tag_cloud.rb</li>
+<li>source&#x2F;_includes&#x2F;custom&#x2F;asides&#x2F;tags.html(如果需要汉化, 直接修改这里面的内容即可)</li>
+</ul>
+<p>例如, 把octopress-tag-pages中的plugins&#x2F;tag_generator.rb复制到octopress安装目录下的plugins文件夹中.</p>
+<p>最后, 修改_config.xml中的default_asides, 将custom&#x2F;asides&#x2F;tags.html添加进去:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">default_asides:</span> [<span class="string">custom/asides/category_list.html</span>, <span class="string">custom/asides/tags.html</span>, <span class="string">...</span>]</span><br></pre></td></tr></table></figure>
+
+<p>至此, 已经安装完毕. 可能已经有读者迫不及待的想要看看效果了. 可是执行<code>rake generate</code>却发生了错误(这个错误并不是所有人都会遇到)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Liquid Exception: comparison of Array with Array failed in _layouts/page.html</span><br></pre></td></tr></table></figure>
+
+<h2 id="排错"><a href="#排错" class="headerlink" title="排错"></a>排错</h2><h3 id="第一个错误-comparison-of-Array-with-Array-failed-in-layouts-x2F-page-html"><a href="#第一个错误-comparison-of-Array-with-Array-failed-in-layouts-x2F-page-html" class="headerlink" title="第一个错误: comparison of Array with Array failed in _layouts&#x2F;page.html"></a>第一个错误: comparison of Array with Array failed in _layouts&#x2F;page.html</h3><p>我们就是按照文档写的. 那么到底哪里错了? 我们看看刚才安装的两个插件的源码就知道了(没学过ruby没关系, 这两个插件的注释写的很完整, 我也没学过ruby, 但是也大致看得懂这个程序). 在tag_cloud.rb中第74行是这么写的:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="variable">@limit</span> &gt; <span class="number">0</span> <span class="keyword">and</span> <span class="variable">@sort</span> != <span class="string">&#x27;rand&#x27;</span></span><br><span class="line">    <span class="comment"># sort the tag pairs by frequency in descending order</span></span><br><span class="line">    weighted.sort! &#123; |<span class="params">a,b</span>| b[<span class="number">1</span>] &lt;=&gt; a[<span class="number">1</span>] &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># then slice off the top <span class="doctag">@limit</span> tag pairs</span></span><br><span class="line">    weighted = weighted[<span class="number">0</span>,<span class="variable">@limit</span>]</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p><code>weighted = weighted[0,@limit]</code>应该就是取指定数目的标签. 如果你的标签数量少于<code>@limit</code>, 那么就会报错. 所以我们修改第74行为:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="variable">@limit</span> &gt; <span class="number">0</span> <span class="keyword">and</span> <span class="variable">@sort</span> != <span class="string">&#x27;rand&#x27;</span> <span class="keyword">and</span> <span class="variable">@limit</span> &lt; weighted.length</span><br></pre></td></tr></table></figure>
+<p>同样的, 将第95行修改为:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="variable">@limit</span> &gt; <span class="number">0</span> <span class="keyword">and</span> <span class="variable">@limit</span> &lt; weighted.length</span><br></pre></td></tr></table></figure>
+<p>这时再执行<code>rake generate</code>就不会报错了. 但是又出现了几条警告:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Build Warning: Layout &#x27;nil&#x27; requested in tags/github page/atom.xml does not exist.exist.</span><br></pre></td></tr></table></figure>
+<h3 id="又一个警告-Layout-‘nil’-requested-in-tags-x2F-标签名-x2F-atom-xml-does-not-exist"><a href="#又一个警告-Layout-‘nil’-requested-in-tags-x2F-标签名-x2F-atom-xml-does-not-exist" class="headerlink" title="又一个警告:Layout ‘nil’ requested in tags&#x2F;标签名&#x2F;atom.xml does not exist."></a>又一个警告:Layout ‘nil’ requested in tags&#x2F;标签名&#x2F;atom.xml does not exist.</h3><p>这个警告让人很摸不着头脑, 而且并不影响使用, 但是让人感觉很不爽, 所以继续在源码中查找问题.<br>然后无意间发现tag_generator.rb中的代码结构和category_generator.rb中的代码结构一模一样.<br>而category_generator.rb是用来生成类别信息的. 那么为什么生成类别信息时没有警告, 而生成标签信息时就会有警告呢?<br>仔细对比之后也没有发现什么问题. 后来发现tag_generator.rb中加载了我们安装时复制过来的tag_feed.xml文件. tag_feed.xml里面有这么一句话:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">layout:</span> <span class="string">nil</span></span><br></pre></td></tr></table></figure>
+<p>而category_generator.rb加载了category_feed.xml文件. category_feed.xml里面对应的位置是:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">layout:</span> <span class="literal">null</span></span><br></pre></td></tr></table></figure>
+<p>是不是这里呢? 改过来试试吧. 好吧, 就是这里.</p>
+<h3 id="基本不会遇见的问题"><a href="#基本不会遇见的问题" class="headerlink" title="基本不会遇见的问题"></a>基本不会遇见的问题</h3><p>到现在侧边栏的标签已经能正常使用了. 但是, 如果你跟我一样, 刚刚开始使用octopress, 只有一两篇博客, 而且所有的标签的博客数量都一样, 那么就会发现左侧的标签的源码是这样:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">style</span>=<span class="string">&quot;font-size: NaN%&quot;</span> <span class="attr">href</span>=<span class="string">&quot;/tags/github-page/&quot;</span>&gt;</span>github page<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这并不影响使用, 而且相当的罕见. 所以我们直接说解决方案吧.<br>将tag_cloud.rb第69行改为:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> max == min</span><br><span class="line">  weight = (<span class="number">100</span> - size_min) / (size_max - size_min)</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  weight = (<span class="title class_">Math</span>.log(count) - <span class="title class_">Math</span>.log(min))/(<span class="title class_">Math</span>.log(max) - <span class="title class_">Math</span>.log(min))</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>这时就可以正常使用了.</p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="中文化"><a href="#中文化" class="headerlink" title="中文化"></a>中文化</h3><p>如果用户点击边栏上的标签, 会跳转到标签页. 而标签页的默认标题为:<code>Tag: 标签名</code>.<br>如果想将其中的”Tag:”换成中文的, 可以在_config.yml中添加下面的内容:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">tag_title_prefix:</span> <span class="string">&quot;标签--&quot;</span></span><br></pre></td></tr></table></figure>
+<p>重新生成一下, 标题就会变成<code>标签--标签名</code></p>
+<h3 id="配置边栏中标签的数量"><a href="#配置边栏中标签的数量" class="headerlink" title="配置边栏中标签的数量"></a>配置边栏中标签的数量</h3><p>[octopress-tag-cloud][]的文档上说可以使用limit限制显示标签的数量(刚开始遇到的错误也是因为配置的limit太大了造成的). 直接修改source&#x2F;_includes&#x2F;custom&#x2F;asides&#x2F;tags.html中的limit后面的数字即可:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% tag_cloud font-size: 60-165%, limit: 15 %&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="在文章列表中显示标签"><a href="#在文章列表中显示标签" class="headerlink" title="在文章列表中显示标签"></a>在文章列表中显示标签</h3><p>效果如图:</p>
+<img src="/images/2016/01/archives-list-tags.png" class="center">
+<p>将octopress-tag-pages插件中的source&#x2F;_includes&#x2F;archive_post.html复制到octopress中的source&#x2F;_includes&#x2F;目录下, 该文件本来已经有了, 直接覆盖就可以.</p>
+<p>或者如果你已经修改过octopress中的source&#x2F;_includes&#x2F;archive_post.html文件了, 那么可以参考插件中的文件, 直接将</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&amp;#123;% if tag != &#x27;0&#x27; %&#125;</span><br><span class="line">  &lt;span class=&quot;tags&quot;&gt;tagged with &amp;#123;&#123; post.tags | tag_links &#125;&#125;&lt;/span&gt;</span><br><span class="line">&amp;#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+<p>复制到octopress下的文件中的特定位置即可.</p>
+<h3 id="在博客下面或者上面显示标签"><a href="#在博客下面或者上面显示标签" class="headerlink" title="在博客下面或者上面显示标签"></a>在博客下面或者上面显示标签</h3><p>还是先上个图:</p>
+<img src="/images/2016/01/archives-tags.png" class="center">
+<p>参考octopress-tag-pages插件中的source&#x2F;_layouts目录中的post.html, 修改octopress下的post.html, 比如我的post.html中相应的部分是这样的:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;p class=&quot;meta&quot;&gt;</span><br><span class="line">    &amp;#123;% include post/categories.html %&#125;</span><br><span class="line">    &amp;#123;% include post/tags.html %&#125;</span><br><span class="line">    &lt;br/&gt;</span><br><span class="line">    &amp;#123;% include post/author.html %&#125;</span><br><span class="line">    &amp;#123;% include post/date.html %&#125;</span><br><span class="line">    &amp;#123;&#123; time &#125;&#125;</span><br><span class="line">    &amp;#123;% if updated %&#125; </span><br><span class="line">        &amp;#123;&#123; updated &#125;&#125;</span><br><span class="line">    &amp;#123;% endif %&#125;</span><br><span class="line">&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/reward/wechat.png" alt=" 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/reward/alipay.jpg" alt=" 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    LBK
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://blog.iamlbk.com/20160108/2016-01-08-octopress-add-tag-cloud/" title="为octopress添加标签">http://blog.iamlbk.com/20160108/2016-01-08-octopress-add-tag-cloud/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/octopress/" rel="tag"># octopress</a>
+          
+            <a href="/tags/github-page/" rel="tag"># github page</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/20160107/2016-01-07-invalid-byte-sequence-in-gb2313/" rel="next" title="使用Octopress搭建博客时遇到invalid byte sequence in GB2313的解决办法">
+                <i class="fa fa-chevron-left"></i> 使用Octopress搭建博客时遇到invalid byte sequence in GB2313的解决办法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20160109/2016-01-09-java-thread-visibility/" rel="prev" title="java多线程中变量的可见性">
+                java多线程中变量的可见性 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTU3OS84MTQz"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/iamlbk" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://javapapers.com/" title="javapapers" target="_blank">javapapers</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.importnew.com/" title="ImportNew" target="_blank">ImportNew</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.oschina.net/" title="开源中国" target="_blank">开源中国</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.jobbole.com/" title="伯乐在线" target="_blank">伯乐在线</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.tuicool.com/" title="推酷" target="_blank">推酷</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.csdn.net/" title="CSDN" target="_blank">CSDN</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ruanyifeng.com/home.html" title="阮一峰的个人网站" target="_blank">阮一峰的个人网站</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://coolshell.cn/" title="酷壳" target="_blank">酷壳</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.techug.com/" title="程序师" target="_blank">程序师</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%92%E9%94%99"><span class="nav-number">3.</span> <span class="nav-text">排错</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E9%94%99%E8%AF%AF-comparison-of-Array-with-Array-failed-in-layouts-x2F-page-html"><span class="nav-number">3.1.</span> <span class="nav-text">第一个错误: comparison of Array with Array failed in _layouts&#x2F;page.html</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%88%E4%B8%80%E4%B8%AA%E8%AD%A6%E5%91%8A-Layout-%E2%80%98nil%E2%80%99-requested-in-tags-x2F-%E6%A0%87%E7%AD%BE%E5%90%8D-x2F-atom-xml-does-not-exist"><span class="nav-number">3.2.</span> <span class="nav-text">又一个警告:Layout ‘nil’ requested in tags&#x2F;标签名&#x2F;atom.xml does not exist.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%B8%8D%E4%BC%9A%E9%81%87%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">3.3.</span> <span class="nav-text">基本不会遇见的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E6%96%87%E5%8C%96"><span class="nav-number">4.1.</span> <span class="nav-text">中文化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%BE%B9%E6%A0%8F%E4%B8%AD%E6%A0%87%E7%AD%BE%E7%9A%84%E6%95%B0%E9%87%8F"><span class="nav-number">4.2.</span> <span class="nav-text">配置边栏中标签的数量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E6%96%87%E7%AB%A0%E5%88%97%E8%A1%A8%E4%B8%AD%E6%98%BE%E7%A4%BA%E6%A0%87%E7%AD%BE"><span class="nav-number">4.3.</span> <span class="nav-text">在文章列表中显示标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E5%8D%9A%E5%AE%A2%E4%B8%8B%E9%9D%A2%E6%88%96%E8%80%85%E4%B8%8A%E9%9D%A2%E6%98%BE%E7%A4%BA%E6%A0%87%E7%AD%BE"><span class="nav-number">4.4.</span> <span class="nav-text">在博客下面或者上面显示标签</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LBK</span>
+
+  
+
+  <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener norefferrer" >豫ICP备17045145号</a>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("zfThM0TOskYvTLdXvRQwjHEs-gzGzoHsz", "ULQ1UuYWWSXMbllP1V0Ag3s7");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
